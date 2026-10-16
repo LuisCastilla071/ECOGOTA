@@ -314,6 +314,7 @@
 
     <img id="preview" class="preview-img" style="display:none;" alt="Vista previa del aceite">
     <div id="resultado" class="resultado-box"></div>
+    <div id="logs" style="margin-top:20px;padding:15px;background:#1a1a1a;color:#0f0;font-family:monospace;font-size:0.82rem;border-radius:10px;max-height:220px;overflow-y:auto;text-align:left;display:none;"></div>
   </div>
 </section>
 
@@ -419,7 +420,7 @@
   <p>© 2026 <strong>ECOGOTA</strong> – Transformando aceite en vida. Todos los derechos reservados.</p>
 </footer>
 
-<!-- ===== ESCÁNER CON GEMINI + SISTEMA DE RESPALDO ===== -->
+<!-- ===== ESCÁNER CON GEMINI + LOGS VISIBLES ===== -->
 <script>
   lucide.createIcons();
 
@@ -466,6 +467,17 @@
   });
 
   async function analizarConGemini(imagenBase64) {
+    const logsDiv = document.getElementById('logs');
+    logsDiv.style.display = 'block';
+    logsDiv.innerHTML = '';
+    const log = (msg, color = '#0f0') => {
+      const hora = new Date().toLocaleTimeString();
+      logsDiv.innerHTML += `<div style="color:${color};">[${hora}] ${msg}</div>`;
+      logsDiv.scrollTop = logsDiv.scrollHeight;
+    };
+
+    log("🚀 Iniciando análisis...", '#0ff');
+
     const prompt = `Analiza esta foto. ¿Es aceite vegetal usado de cocina?
 
 Responde ÚNICAMENTE con este JSON exacto, sin texto extra ni bloques de código:
@@ -488,7 +500,6 @@ Valores permitidos:
 - recomendacion: "vela", "jabon", "desechar" o "no_es_aceite"
 - razon: máximo 15 palabras`;
 
-    // Lista de modelos en orden de preferencia
     const modelos = [
       "gemini-3.8-flash",
       "gemini-3.5-flash",
@@ -507,12 +518,12 @@ Valores permitidos:
 
     let ultimoError = null;
 
-    // Intentar con cada modelo hasta que uno funcione
     for (const modelo of modelos) {
       for (let intento = 1; intento <= 2; intento++) {
         try {
-          console.log(`🔵 Probando ${modelo} (intento ${intento})...`);
+          log(`🔵 Probando ${modelo} (intento ${intento})...`, '#ff0');
           const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${API_KEY}`;
+          const t0 = performance.now();
 
           const resp = await fetch(url, {
             method: "POST",
@@ -520,9 +531,11 @@ Valores permitidos:
             body: body
           });
 
-          // Si está saturado (503) o límite alcanzado (429), esperar y reintentar
+          const t1 = performance.now();
+          const duracion = Math.round(t1 - t0);
+
           if (resp.status === 503 || resp.status === 429) {
-            console.warn(`⚠️ ${modelo} saturado, esperando...`);
+            log(`⚠️ ${modelo} saturado (${resp.status}) — esperando 1.5s...`, '#f80');
             await new Promise(r => setTimeout(r, 1500 * intento));
             continue;
           }
@@ -530,13 +543,12 @@ Valores permitidos:
           if (!resp.ok) {
             const err = await resp.text();
             ultimoError = `Error ${resp.status}: ${err.substring(0, 200)}`;
-            console.warn(`❌ ${modelo} falló: ${resp.status}`);
-            break; // pasar al siguiente modelo
+            log(`❌ ${modelo} falló: ${resp.status}`, '#f00');
+            break;
           }
 
-          // ✅ Éxito
           const data = await resp.json();
-          console.log(`🟢 Respuesta de ${modelo}:`, data);
+          log(`✅ ${modelo} respondió en ${duracion}ms`, '#0f0');
 
           let texto = data.candidates[0].content.parts[0].text;
           texto = texto.replace(/```json|```/g, "").trim();
@@ -544,17 +556,21 @@ Valores permitidos:
           const fin = texto.lastIndexOf("}");
           if (inicio !== -1 && fin !== -1) texto = texto.substring(inicio, fin + 1);
 
-          return JSON.parse(texto);
+          const json = JSON.parse(texto);
+          log(`📊 Recomendación: ${json.recomendacion}`, '#0ff');
+          log(`🏆 MODELO GANADOR: ${modelo}`, '#0ff');
+
+          return json;
 
         } catch (err) {
           ultimoError = err.message;
-          console.warn(`⚠️ ${modelo} error:`, err.message);
+          log(`⚠️ ${modelo} error: ${err.message}`, '#f80');
           await new Promise(r => setTimeout(r, 800));
         }
       }
     }
 
-    // Si todos fallaron
+    log(`💥 Todos los modelos fallaron`, '#f00');
     throw new Error("Todos los modelos están saturados. Espera 30 segundos y vuelve a intentar.");
   }
 
