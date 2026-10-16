@@ -419,7 +419,7 @@
   <p>© 2026 <strong>ECOGOTA</strong> – Transformando aceite en vida. Todos los derechos reservados.</p>
 </footer>
 
-<!-- ===== ESCÁNER CON GEMINI 2.5 FLASH ===== -->
+<!-- ===== ESCÁNER CON GEMINI + SISTEMA DE RESPALDO ===== -->
 <script>
   lucide.createIcons();
 
@@ -488,41 +488,74 @@ Valores permitidos:
 - recomendacion: "vela", "jabon", "desechar" o "no_es_aceite"
 - razon: máximo 15 palabras`;
 
-    // ✅ MODELO CORREGIDO (gemini-2.5-flash en lugar de 2.0-flash)
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${API_KEY}`;
+    // Lista de modelos en orden de preferencia
+    const modelos = [
+      "gemini-3.8-flash",
+      "gemini-3.5-flash",
+      "gemini-2.5-flash",
+      "gemini-flash-latest"
+    ];
 
-    console.log("🔵 Enviando imagen a Gemini 2.5 Flash...");
-
-    const resp = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{
-          parts: [
-            { text: prompt },
-            { inline_data: { mime_type: "image/jpeg", data: imagenBase64.split(',')[1] } }
-          ]
-        }]
-      })
+    const body = JSON.stringify({
+      contents: [{
+        parts: [
+          { text: prompt },
+          { inline_data: { mime_type: "image/jpeg", data: imagenBase64.split(',')[1] } }
+        ]
+      }]
     });
 
-    if (!resp.ok) {
-      const err = await resp.text();
-      console.error("🔴 Error de Gemini:", resp.status, err);
-      throw new Error(`Error ${resp.status}: ${err.substring(0, 250)}`);
+    let ultimoError = null;
+
+    // Intentar con cada modelo hasta que uno funcione
+    for (const modelo of modelos) {
+      for (let intento = 1; intento <= 2; intento++) {
+        try {
+          console.log(`🔵 Probando ${modelo} (intento ${intento})...`);
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${API_KEY}`;
+
+          const resp = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: body
+          });
+
+          // Si está saturado (503) o límite alcanzado (429), esperar y reintentar
+          if (resp.status === 503 || resp.status === 429) {
+            console.warn(`⚠️ ${modelo} saturado, esperando...`);
+            await new Promise(r => setTimeout(r, 1500 * intento));
+            continue;
+          }
+
+          if (!resp.ok) {
+            const err = await resp.text();
+            ultimoError = `Error ${resp.status}: ${err.substring(0, 200)}`;
+            console.warn(`❌ ${modelo} falló: ${resp.status}`);
+            break; // pasar al siguiente modelo
+          }
+
+          // ✅ Éxito
+          const data = await resp.json();
+          console.log(`🟢 Respuesta de ${modelo}:`, data);
+
+          let texto = data.candidates[0].content.parts[0].text;
+          texto = texto.replace(/```json|```/g, "").trim();
+          const inicio = texto.indexOf("{");
+          const fin = texto.lastIndexOf("}");
+          if (inicio !== -1 && fin !== -1) texto = texto.substring(inicio, fin + 1);
+
+          return JSON.parse(texto);
+
+        } catch (err) {
+          ultimoError = err.message;
+          console.warn(`⚠️ ${modelo} error:`, err.message);
+          await new Promise(r => setTimeout(r, 800));
+        }
+      }
     }
 
-    const data = await resp.json();
-    console.log("🟢 Respuesta de Gemini:", data);
-
-    let texto = data.candidates[0].content.parts[0].text;
-    texto = texto.replace(/```json|```/g, "").trim();
-
-    const inicio = texto.indexOf("{");
-    const fin = texto.lastIndexOf("}");
-    if (inicio !== -1 && fin !== -1) texto = texto.substring(inicio, fin + 1);
-
-    return JSON.parse(texto);
+    // Si todos fallaron
+    throw new Error("Todos los modelos están saturados. Espera 30 segundos y vuelve a intentar.");
   }
 
   function mostrarResultado(a) {
