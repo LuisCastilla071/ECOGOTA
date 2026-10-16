@@ -38,13 +38,12 @@
       line-height: 1.2;
     }
 
-    /* Iconos Lucide */
     .icon { width: 20px; height: 20px; stroke-width: 2.2; flex-shrink: 0; vertical-align: middle; }
     .icon-sm { width: 16px; height: 16px; }
     .icon-md { width: 24px; height: 24px; }
     .icon-lg { width: 32px; height: 32px; }
 
-    /* ===== HEADER (más grande) ===== */
+    /* ===== HEADER ===== */
     .site-header {
       position: sticky;
       top: 0;
@@ -59,12 +58,7 @@
       align-items: center;
     }
     .logo { display: flex; align-items: center; gap: 16px; text-decoration: none; }
-    .logo img {
-      height: 65px;
-      width: auto;
-      border-radius: 14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
+    .logo img { height: 65px; width: auto; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
     .logo-text {
       font-family: 'Poppins', sans-serif;
       font-weight: 800;
@@ -113,12 +107,7 @@
       margin-bottom: 18px;
       letter-spacing: -0.8px;
     }
-    .hero p {
-      font-size: 1.1rem;
-      margin-bottom: 28px;
-      color: var(--texto-suave);
-      max-width: 560px;
-    }
+    .hero p { font-size: 1.1rem; margin-bottom: 28px; color: var(--texto-suave); max-width: 560px; }
     .hero p strong { color: var(--cta); font-weight: 700; }
     .hero img {
       width: 100%;
@@ -149,11 +138,7 @@
     .btn .icon { color: currentColor; }
 
     /* ===== SECCIONES ===== */
-    section {
-      padding: 45px 8%;
-      max-width: 1200px;
-      margin: auto;
-    }
+    section { padding: 45px 8%; max-width: 1200px; margin: auto; }
     .seccion-titulo {
       font-size: 2rem;
       color: var(--verde-oscuro);
@@ -182,6 +167,88 @@
       margin: 30px auto 0;
       border-radius: 20px;
       box-shadow: var(--sombra-md);
+    }
+
+    /* ===== ESCÁNER ===== */
+    .escaner-card {
+      border: 3px dashed var(--verde-claro);
+      border-radius: 20px;
+      padding: 40px 30px;
+      text-align: center;
+      background: white;
+      max-width: 700px;
+      margin: auto;
+      box-shadow: var(--sombra-sm);
+      transition: border-color 0.25s, background 0.25s;
+    }
+    .escaner-card:hover { border-color: var(--verde); background: #F1F8E9; }
+    .escaner-card input[type="file"] { display: none; }
+    .escaner-hint {
+      color: var(--texto-suave);
+      font-size: 0.92rem;
+      margin-top: 15px;
+    }
+    .preview-img {
+      max-width: 260px;
+      width: 100%;
+      border-radius: 14px;
+      margin: 20px auto 0;
+      display: block;
+      box-shadow: var(--sombra-sm);
+    }
+    .resultado-box {
+      margin-top: 25px;
+      padding: 22px 20px;
+      border-radius: 16px;
+      font-size: 1rem;
+      display: none;
+      text-align: left;
+      animation: fadeIn 0.4s ease;
+    }
+    .resultado-box.visible { display: block; }
+    .resultado-box h3 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .resultado-box .color-swatch {
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 3px solid white;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    .resultado-box .dato {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      color: var(--texto-suave);
+      font-size: 0.95rem;
+    }
+    .resultado-box .dato strong { color: var(--texto); }
+    .resultado-box .recomendacion {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .rec-vela    { background: #FFF8E1; color: #7A5C00; border-left: 5px solid var(--amarillo); }
+    .rec-jabon   { background: #E8F5E9; color: var(--verde-oscuro); border-left: 5px solid var(--verde); }
+    .rec-desechar{ background: #FFEBEE; color: #B71C1C; border-left: 5px solid #E53935; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ===== PASO PREVIO ===== */
@@ -258,19 +325,14 @@
     .bloque ul li::before {
       content: '';
       display: inline-block;
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       background: var(--verde);
       border-radius: 50%;
       margin-top: 9px;
       flex-shrink: 0;
     }
     .bloque ol { counter-reset: paso; }
-    .bloque ol li {
-      counter-increment: paso;
-      padding-left: 32px;
-      position: relative;
-    }
+    .bloque ol li { counter-increment: paso; padding-left: 32px; position: relative; }
     .bloque ol li::before {
       content: counter(paso);
       position: absolute;
@@ -304,12 +366,7 @@
     .alerta .icon { color: var(--cta); margin-top: 2px; }
     .alerta strong { color: var(--cta); }
 
-    .bloque-img {
-      width: 100%;
-      border-radius: 20px;
-      box-shadow: var(--sombra-md);
-      align-self: center;
-    }
+    .bloque-img { width: 100%; border-radius: 20px; box-shadow: var(--sombra-md); align-self: center; }
 
     /* ===== CTA FINAL ===== */
     .cta-final {
@@ -343,14 +400,7 @@
       position: relative;
       z-index: 1;
     }
-    .cta-botones {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
-    }
+    .cta-botones { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
     .cta-final .btn {
       background: white;
       color: var(--verde-oscuro);
@@ -416,10 +466,10 @@
   </a>
   <nav>
     <ul class="nav-links">
+      <li><a href="#escaner"><i data-lucide="scan-line" class="icon icon-sm"></i> Escáner</a></li>
       <li><a href="#filtrar"><i data-lucide="filter" class="icon icon-sm"></i> Preparación</a></li>
       <li><a href="#jabon"><i data-lucide="droplet" class="icon icon-sm"></i> Jabón</a></li>
       <li><a href="#velas"><i data-lucide="flame" class="icon icon-sm"></i> Velas</a></li>
-      <li><a href="#comparte"><i data-lucide="share-2" class="icon icon-sm"></i> Comparte</a></li>
     </ul>
   </nav>
 </header>
@@ -429,13 +479,37 @@
   <div class="hero-content">
     <h1>Tu aceite usado vale más de lo que crees. ¡Haz jabón y velas en casa!</h1>
     <p>Evita contaminar miles de litros de agua. Descubre cómo hacerlo tú mismo aquí paso a paso.</p>
-    <a href="#filtrar" class="btn">
-      <i data-lucide="rocket" class="icon"></i>
-      EMPEZAR A RECICLAR AHORA
+    <a href="#escaner" class="btn">
+      <i data-lucide="scan-line" class="icon"></i>
+      ESCANEAR MI ACEITE
     </a>
   </div>
   <img src="img/ACEITE_VELA.jpg" alt="Frasco con aceite reciclado junto a una barra de jabón casero y una vela encendida sobre mesa de madera">
 </header>
+
+<!-- ===== ESCÁNER DE ACEITE ===== -->
+<section id="escaner">
+  <h2 class="seccion-titulo">
+    <i data-lucide="scan-line" class="icon icon-lg"></i>
+    Escanea tu aceite y te decimos qué hacer
+  </h2>
+  <p class="seccion-sub">Sube una foto clara de tu aceite usado. Analizaremos su color y te recomendaremos si sirve para hacer <strong>velas</strong>, <strong>jabón</strong> o si es mejor <strong>desecharlo</strong>.</p>
+
+  <div class="escaner-card">
+    <input type="file" id="foto" accept="image/*">
+    <label for="foto" class="btn">
+      <i data-lucide="camera" class="icon"></i>
+      SUBIR FOTO DEL ACEITE
+    </label>
+    <p class="escaner-hint">Formatos aceptados: JPG, PNG, WEBP. Foto clara y con buena luz.</p>
+
+    <img id="preview" class="preview-img" style="display:none;" alt="Vista previa del aceite">
+
+    <canvas id="canvas" style="display:none;"></canvas>
+
+    <div id="resultado" class="resultado-box"></div>
+  </div>
+</section>
 
 <!-- ===== PASO PREVIO ===== -->
 <section id="filtrar">
@@ -447,16 +521,12 @@
 
   <div class="pasos-grid">
     <div class="paso-card">
-      <div class="paso-icono">
-        <i data-lucide="utensils" class="icon icon-md"></i>
-      </div>
+      <div class="paso-icono"><i data-lucide="utensils" class="icon icon-md"></i></div>
       <h3>Paso 1 · Colar</h3>
       <p>Deja enfriar el aceite y pásalo por un colador metálico de malla fina para retirar residuos grandes de comida.</p>
     </div>
     <div class="paso-card">
-      <div class="paso-icono">
-        <i data-lucide="filter" class="icon icon-md"></i>
-      </div>
+      <div class="paso-icono"><i data-lucide="filter" class="icon icon-md"></i></div>
       <h3>Paso 2 · Filtrar</h3>
       <p>Pásalo por una tela fina de algodón o un filtro de café para eliminar impurezas pequeñas.</p>
     </div>
@@ -469,10 +539,7 @@
 <section id="jabon">
   <div class="bloque">
     <div>
-      <h2>
-        <i data-lucide="droplet" class="icon icon-lg"></i>
-        Jabón casero para lavar (ropa y platos)
-      </h2>
+      <h2><i data-lucide="droplet" class="icon icon-lg"></i> Jabón casero para lavar (ropa y platos)</h2>
 
       <h3><i data-lucide="check-circle-2" class="icon icon-sm"></i> Uso recomendado</h3>
       <p>Aceites de papas, tajadas, carnes o pollo. <strong>Evitar</strong> aceite con olor a pescado.</p>
@@ -506,10 +573,7 @@
 <section id="velas">
   <div class="bloque">
     <div>
-      <h2>
-        <i data-lucide="flame" class="icon icon-lg"></i>
-        Velas caseras (normales y aromatizadas)
-      </h2>
+      <h2><i data-lucide="flame" class="icon icon-lg"></i> Velas caseras (normales y aromatizadas)</h2>
 
       <h3><i data-lucide="check-circle-2" class="icon icon-sm"></i> Uso recomendado</h3>
       <p>Aceites claros y neutros: papas, tajadas, repostería frita.</p>
@@ -540,14 +604,8 @@
   <h2>¿Hiciste tu primer jabón o vela?</h2>
   <p>¡Sube tu foto a redes sociales, etiqueta a nuestro equipo y ayuda a inspirar a más personas a salvar miles de litros de agua!</p>
   <div class="cta-botones">
-    <a href="#" class="btn">
-      <i data-lucide="camera" class="icon"></i>
-      COMPARTIR MI IMPACTO
-    </a>
-    <a href="#" class="btn">
-      <i data-lucide="mail" class="icon"></i>
-      UNIRME AL RETO ECO
-    </a>
+    <a href="#" class="btn"><i data-lucide="camera" class="icon"></i> COMPARTIR MI IMPACTO</a>
+    <a href="#" class="btn"><i data-lucide="mail" class="icon"></i> UNIRME AL RETO ECO</a>
   </div>
   <img src="img/ECOGOTA.jpeg" alt="Logo ECOGOTA representando el impacto ecológico positivo">
 </div>
@@ -562,9 +620,109 @@
   <p>© 2026 <strong>ECOGOTA</strong> – Transformando aceite en vida. Todos los derechos reservados.</p>
 </footer>
 
-<!-- ===== INICIALIZAR ICONOS ===== -->
+<!-- ===== LUCIDE + ESCÁNER ===== -->
 <script>
   lucide.createIcons();
+
+  // ===== ESCÁNER DE ACEITE =====
+  const inputFoto = document.getElementById('foto');
+  const preview   = document.getElementById('preview');
+  const canvas    = document.getElementById('canvas');
+  const resultado = document.getElementById('resultado');
+
+  inputFoto.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+      const img = new Image();
+      img.onload = function() {
+        // Mostrar preview
+        preview.src = event.target.result;
+        preview.style.display = 'block';
+
+        // Dibujar en canvas (máx 400px para rapidez)
+        const maxW = 400;
+        const escala = Math.min(1, maxW / img.width);
+        canvas.width  = img.width  * escala;
+        canvas.height = img.height * escala;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+        // Leer píxeles del centro (evitamos bordes y sombras)
+        const margen = Math.floor(canvas.width * 0.2);
+        const ancho  = canvas.width  - margen * 2;
+        const alto   = canvas.height - margen * 2;
+        const data   = ctx.getImageData(margen, margen, ancho, alto).data;
+
+        let r = 0, g = 0, b = 0, count = 0;
+        for (let i = 0; i < data.length; i += 4) {
+          r += data[i];
+          g += data[i + 1];
+          b += data[i + 2];
+          count++;
+        }
+        r = Math.round(r / count);
+        g = Math.round(g / count);
+        b = Math.round(b / count);
+
+        const brillo = Math.round((r + g + b) / 3);
+        const rec = clasificarAceite(brillo, r, g, b);
+
+        resultado.className = 'resultado-box visible';
+        resultado.innerHTML = `
+          <h3><i data-lucide="scan-line" class="icon icon-md"></i> Análisis completado</h3>
+          <div class="dato">
+            <span class="color-swatch" style="background: rgb(${r},${g},${b});"></span>
+            <strong>Color promedio:</strong> RGB(${r}, ${g}, ${b})
+          </div>
+          <div class="dato">
+            <i data-lucide="sun" class="icon icon-sm"></i>
+            <strong>Brillo:</strong> ${brillo} / 255
+          </div>
+          <div class="recomendacion ${rec.clase}">
+            <i data-lucide="${rec.icono}" class="icon icon-md"></i>
+            <span>${rec.texto}</span>
+          </div>
+        `;
+        lucide.createIcons();
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function clasificarAceite(brillo, r, g, b) {
+    if (brillo >= 190) {
+      return {
+        clase: 'rec-vela',
+        icono: 'flame',
+        texto: '🕯️ Aceite claro y limpio → Ideal para hacer VELAS (incluso aromatizadas).'
+      };
+    }
+    if (brillo >= 130) {
+      return {
+        clase: 'rec-jabon',
+        icono: 'droplet',
+        texto: '🧼 Aceite dorado → Perfecto para hacer JABÓN casero para ropa y platos.'
+      };
+    }
+    if (brillo >= 70) {
+      return {
+        clase: 'rec-jabon',
+        icono: 'droplet',
+        texto: '🧼 Aceite oscuro → Solo para JABÓN. Filtra muy bien antes de usarlo.'
+      };
+    }
+    return {
+      clase: 'rec-desechar',
+      icono: 'alert-triangle',
+      texto: '🚫 Aceite muy oscuro o quemado → Mejor desecharlo en un punto limpio.'
+    };
+  }
 </script>
 
 </body>
