@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECOGOTA – Transforma tu Aceite Usado en Jabón y Velas</title>
+  <meta name="description" content="Aprende a reutilizar el aceite vegetal usado en casa para hacer jabón y velas. 1 litro de aceite contamina 40,000 litros de agua.">
+  <link rel="icon" type="image/jpeg" href="img/ECOGOTA.jpeg">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --verde: #2E7D32;
+      --verde-claro: #A5D6A7;
+      --amarillo: #F9A825;
+      --fondo: #FAFAF7;
+      --texto: #212121;
+      --cta: #FF6F00;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--fondo);
+      color: var(--texto);
+      line-height: 1.6;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* ===== HEADER DE NAVEGACIÓN ===== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+      padding: 12px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .logo img {
+      height: 45px;
+      width: auto;
+      border-radius: 8px;
+    }
+    .logo-text {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--verde);
+    }
+    .logo-text span { color: var(--amarillo); }
+    .nav-links {
+      display: flex;
+      gap: 25px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--texto);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--verde); }
+
+    /* ===== HERO ===== */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      padding: 60px 8%;
+      background: linear-gradient(135deg, #E8F5E9 0%, #FFF8E1 100%);
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      color: var(--verde);
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      margin-bottom: 30px;
+      color: #444;
+    }
+    .hero img {
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    }
+    .btn {
+      display: inline-block;
+      background: var(--cta);
+      color: white;
+      padding: 16px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 6px 20px rgba(255,111,0,0.35);
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(255,111,0,0.5); }
+
+    /* ===== SECCIONES ===== */
+    section {
+      padding: 70px 8%;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .seccion-titulo {
+      font-size: 2rem;
+      color: var(--verde);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .seccion-sub {
+      text-align: center;
+      color: #666;
+      margin-bottom: 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .seccion-img {
+      width: 100%;
+      max-width: 700px;
+      display: block;
+      margin: 40px auto 0;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    /* ===== PASO PREVIO ===== */
+    .pasos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+    .paso-card {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      border-left: 6px solid var(--amarillo);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    }
+    .paso-card h3 {
+      color: var(--verde);
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    /* ===== BLOQUES JABÓN / VELA ===== */
+    .bloque {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: start;
+      background: white;
+      padding: 50px;
+      border-radius: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      margin-bottom: 60px;
+    }
+    .bloque h2 {
+      font-size: 1.8rem;
+      color: var(--verde);
+      margin-bottom: 20px;
+    }
+    .bloque h3 {
+      font-size: 1.1rem;
+      color: var(--amarillo);
+      margin: 20px 0 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .bloque ul, .bloque ol {
+      padding-left: 20px;
+      margin-bottom: 15px;
+    }
+    .bloque li { margin-bottom: 8px; }
+    .alerta {
+      background: #FFF3E0;
+      border-left: 5px solid var(--cta);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      font-size: 0.95rem;
+    }
+    .bloque-img {
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      align-self: center;
+    }
+
+    /* ===== CTA FINAL ===== */
+    .cta-final {
+      text-align: center;
+      background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+      color: white;
+      padding: 80px 8%;
+      border-radius: 24px;
+      margin: 40px 8%;
+      max-width: 1100px;
+    }
+    .cta-final h2 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+    }
+    .cta-final p {
+      font-size: 1.15rem;
+      margin-bottom: 35px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-final .btn {
+      background: white;
+      color: var(--verde);
+      margin: 8px;
+    }
+    .cta-final .btn:hover {
+      background: var(--amarillo);
+      color: white;
+    }
+    .cta-final img {
+      max-width: 380px;
+      width: 100%;
+      margin-top: 40px;
+      border-radius: 16px;
+      background: white;
+      padding: 15px;
+    }
+
+    /* ===== FOOTER ===== */
+    .site-footer {
+      background: #1B5E20;
+      color: white;
+      text-align: center;
+      padding: 30px 8%;
+      font-size: 0.9rem;
+    }
+    .site-footer strong { color: var(--amarillo); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .hero, .bloque { grid-template-columns: 1fr; padding: 40px 6%; }
+      .hero h1 { font-size: 1.9rem; }
+      .seccion-titulo { font-size: 1.6rem; }
+      .cta-final { margin: 20px 4%; padding: 50px 6%; }
+      .nav-links { display: none; }
+      .site-header { padding: 12px 6%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER DE NAVEGACIÓN ===== -->
+<header class="site-header">
+  <a href="#inicio" class="logo">
+    <img src="img/ECOGOTA.jpeg" alt="Logo ECOGOTA">
+    <span class="logo-text">ECO<span>GOTA</span></span>
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="#filtrar">Preparación</a></li>
+      <li><a href="#jabon">Jabón</a></li>
+      <li><a href="#velas">Velas</a></li>
+      <li><a href="#comparte">Comparte</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ===== 1. HERO ===== -->
+<header class="hero" id="inicio">
+  <div>
+    <h1>No lo tires por el fregadero: Transforma tu aceite usado en jabón y velas en casa</h1>
+    <p>1 litro de aceite tirado al drenaje contamina <strong>40,000 litros de agua</strong>. Dale una segunda vida hoy mismo con estos tutoriales sencillos.</p>
+    <a href="#filtrar" class="btn">🚀 EMPEZAR A RECICLAR AHORA</a>
+  </div>
+  <img src="img/ACEITE_VELA.jpg" alt="Frasco con aceite reciclado junto a una barra de jabón casero y una vela encendida sobre mesa de madera">
+</header>
+
+<!-- ===== 2. PASO PREVIO ===== -->
+<section id="filtrar">
+  <h2 class="seccion-titulo">Antes de empezar: Prepara tu aceite en 2 pasos</h2>
+  <p class="seccion-sub">Un aceite bien filtrado garantiza jabones y velas de mejor calidad, sin malos olores ni residuos.</p>
+
+  <div class="pasos-grid">
+    <div class="paso-card">
+      <h3>Paso 1 · Colar</h3>
+      <p>Deja enfriar el aceite y pásalo por un colador metálico de malla fina para retirar residuos grandes de comida.</p>
+    </div>
+    <div class="paso-card">
+      <h3>Paso 2 · Filtrar</h3>
+      <p>Pásalo por una tela fina de algodón o un filtro de café para eliminar impurezas pequeñas.</p>
+    </div>
+  </div>
+
+  <img class="seccion-img" src="img/ACEITE_QUEMADO_2.jpeg" alt="Primer plano de aceite dorado siendo vertido a través de un filtro de tela hacia un frasco de vidrio transparente">
+</section>
+
+<!-- ===== 3. JABÓN ===== -->
+<section id="jabon">
+  <div class="bloque">
+    <div>
+      <h2>🧼 Sección 1: Jabón casero para lavar (ropa y platos)</h2>
+
+      <h3>Uso recomendado</h3>
+      <p>Aceites de papas, tajadas, carnes o pollo. <strong>Evitar</strong> aceite con olor a pescado.</p>
+
+      <h3>Ingredientes</h3>
+      <ul>
+        <li>1 litro de aceite usado (bien filtrado)</li>
+        <li>330 ml de agua</li>
+        <li>140 g de soda cáustica en escamas (99% pureza)</li>
+        <li>Guantes de nitrilo/goma y gafas de protección</li>
+        <li>Recipiente de plástico duro (nunca aluminio) y molde</li>
+      </ul>
+
+      <div class="alerta">⚠️ <strong>Seguridad:</strong> Trabaja en área ventilada. Vierte siempre la soda sobre el agua, nunca al revés.</div>
+
+      <h3>Pasos de elaboración</h3>
+      <ol>
+        <li><strong>Mezclar la soda:</strong> En área ventilada y con guantes, vierte la soda cáustica sobre el agua. Remueve hasta disolver y deja enfriar 15 minutos.</li>
+        <li><strong>Mezclar el aceite:</strong> Vierte el aceite filtrado poco a poco mientras remueves en un solo sentido constante hasta obtener textura espesa tipo mayonesa.</li>
+        <li><strong>Moldear y curar:</strong> Vierte la masa en los moldes, deja reposar 48 horas para desmoldar y cura las barras en lugar seco durante 4 semanas antes de usarlas.</li>
+      </ol>
+    </div>
+    <img class="bloque-img" src="img/ACEITE_JABON.webp" alt="Barras de jabón artesanal cortadas con apariencia rústica sobre una tabla de madera">
+  </div>
+</section>
+
+<!-- ===== 4. VELAS ===== -->
+<section id="velas">
+  <div class="bloque">
+    <div>
+      <h2>🕯️ Sección 2: Velas caseras (normales y aromatizadas)</h2>
+
+      <h3>Uso recomendado</h3>
+      <p>Aceites claros y neutros: papas, tajadas, repostería frita.</p>
+
+      <h3>Ingredientes</h3>
+      <ul>
+        <li>100 ml de aceite usado (filtrado)</li>
+        <li>100 g de cera de soya o parafina (o 15 g de endurecedor)</li>
+        <li>1 mecha o pabilo de algodón</li>
+        <li>Opcional: 20 gotas de aceite esencial (lavanda, limón o vainilla)</li>
+        <li>1 frasco de vidrio pequeño</li>
+      </ul>
+
+      <h3>Pasos de elaboración</h3>
+      <ol>
+        <li><strong>Derretir:</strong> Funde la cera a baño María a fuego lento.</li>
+        <li><strong>Mezclar:</strong> Retira del fuego, agrega el aceite usado y remueve uniformemente. Añade el aceite esencial si deseas aroma.</li>
+        <li><strong>Colocar la mecha y verter:</strong> Centra la mecha en el frasco y vierte la mezcla con cuidado.</li>
+        <li><strong>Enfriar:</strong> Deja solidificar 12 horas a temperatura ambiente sin mover.</li>
+      </ol>
+    </div>
+    <img class="bloque-img" src="img/ACEITE_QUEMADO.webp" alt="Frasco de vidrio transparente con vela casera encendida y una rama de lavanda decorativa al lado">
+  </div>
+</section>
+
+<!-- ===== 5. CTA FINAL ===== -->
+<div class="cta-final" id="comparte">
+  <h2>¿Hiciste tu primer jabón o vela?</h2>
+  <p>¡Sube tu foto a redes sociales, etiqueta a nuestro equipo y ayuda a inspirar a más personas a salvar miles de litros de agua!</p>
+  <a href="#" class="btn">📸 COMPARTIR MI IMPACTO</a>
+  <a href="#" class="btn">📩 UNIRME AL RETO ECO</a>
+  <img src="img/ECOGOTA.jpeg" alt="Logo ECOGOTA representando el impacto ecológico positivo">
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer">
+  <p>© 2026 <strong>ECOGOTA</strong> – Transformando aceite en vida. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
