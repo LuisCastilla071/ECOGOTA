@@ -117,6 +117,10 @@
     }
     .escaner-card:hover { border-color: var(--verde); background: #F1F8E9; }
     .escaner-card input[type="file"] { display: none; }
+    .escaner-card label.btn {
+      display: inline-flex;
+      margin: 0 auto;
+    }
     .escaner-hint { color: var(--texto-suave); font-size: 0.92rem; margin-top: 15px; }
     .preview-img {
       max-width: 260px; width: 100%; border-radius: 14px;
@@ -144,6 +148,20 @@
     .rec-vela     { background: #FFF8E1; color: #7A5C00; border-left: 5px solid var(--amarillo); }
     .rec-jabon    { background: #E8F5E9; color: var(--verde-oscuro); border-left: 5px solid var(--verde); }
     .rec-desechar { background: #FFEBEE; color: #B71C1C; border-left: 5px solid #E53935; }
+
+    /* LOGS */
+    .logs-box {
+      margin-top: 20px; padding: 15px; background: #1a1a1a; color: #0f0;
+      font-family: 'Courier New', monospace; font-size: 0.82rem;
+      border-radius: 10px; max-height: 220px; overflow-y: auto;
+      text-align: left; display: none;
+    }
+    .log-line {
+      display: flex; align-items: center; gap: 8px;
+      padding: 3px 0; line-height: 1.4;
+    }
+    .log-line .icon { width: 14px; height: 14px; stroke-width: 2.5; flex-shrink: 0; }
+    .log-time { opacity: 0.6; margin-right: 4px; }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -262,6 +280,16 @@
       .logo-text { font-size: 1.55rem; }
       .hero { padding: 35px 6% 40px; }
       section { padding: 35px 6%; }
+
+      /* ✅ Botón del escáner centrado y a lo ancho en móvil */
+      .escaner-card { padding: 30px 20px; }
+      .escaner-card label.btn {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+      }
     }
   </style>
 </head>
@@ -310,11 +338,11 @@
       <i data-lucide="camera" class="icon"></i>
       SUBIR FOTO DEL ACEITE
     </label>
-    <p class="escaner-hint">📸 <strong>Tip:</strong> Coloca el aceite en un recipiente claro sobre fondo blanco, con buena luz.</p>
+    <p class="escaner-hint"><strong>Tip:</strong> Coloca el aceite en un recipiente claro sobre fondo blanco, con buena luz.</p>
 
     <img id="preview" class="preview-img" style="display:none;" alt="Vista previa del aceite">
     <div id="resultado" class="resultado-box"></div>
-    <div id="logs" style="margin-top:20px;padding:15px;background:#1a1a1a;color:#0f0;font-family:monospace;font-size:0.82rem;border-radius:10px;max-height:220px;overflow-y:auto;text-align:left;display:none;"></div>
+    <div id="logs" class="logs-box"></div>
   </div>
 </section>
 
@@ -420,11 +448,11 @@
   <p>© 2026 <strong>ECOGOTA</strong> – Transformando aceite en vida. Todos los derechos reservados.</p>
 </footer>
 
-<!-- ===== ESCÁNER CON GEMINI + LOGS VISIBLES ===== -->
+<!-- ===== ESCÁNER CON GEMINI + LOGS CON ICONOS ===== -->
 <script>
   lucide.createIcons();
 
-  // ===== CLAVE DIVIDIDA (para evitar bloqueo de GitHub) =====
+  // ===== CLAVE DIVIDIDA =====
   const _k1 = "AQ.Ab8RN6Jwu1ULk";
   const _k2 = "RscOP5vL8fi8dnuT";
   const _k3 = "uEnl81Ujx8ztmm-xM-zXw";
@@ -433,51 +461,86 @@
   const inputFoto = document.getElementById('foto');
   const preview   = document.getElementById('preview');
   const resultado = document.getElementById('resultado');
+  const logsDiv   = document.getElementById('logs');
 
-  inputFoto.addEventListener('change', function(e) {
+  // ✅ Redimensionar imagen antes de enviarla (acelera 10x la respuesta)
+  function redimensionarImagen(file, maxAncho = 800, calidad = 0.75) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const escala = Math.min(1, maxAncho / img.width);
+          canvas.width  = Math.round(img.width  * escala);
+          canvas.height = Math.round(img.height * escala);
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL('image/jpeg', calidad));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ✅ Log con iconos Lucide (sin emojis)
+  const log = (msg, color = '#0f0', icon = 'info') => {
+    const hora = new Date().toLocaleTimeString();
+    const line = document.createElement('div');
+    line.className = 'log-line';
+    line.style.color = color;
+    line.innerHTML = `<i data-lucide="${icon}" class="icon"></i><span class="log-time">[${hora}]</span> ${msg}`;
+    logsDiv.appendChild(line);
+    logsDiv.scrollTop = logsDiv.scrollHeight;
+    lucide.createIcons();
+  };
+
+  inputFoto.addEventListener('change', async function(e) {
     const file = e.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = async function(event) {
-      const base64 = event.target.result;
-      preview.src = base64;
+    // Mostrar preview original (sin comprimir visualmente)
+    const readerPreview = new FileReader();
+    readerPreview.onload = (ev) => {
+      preview.src = ev.target.result;
       preview.style.display = 'block';
+    };
+    readerPreview.readAsDataURL(file);
 
-      resultado.className = 'resultado-box visible';
+    resultado.className = 'resultado-box visible';
+    resultado.innerHTML = `
+      <h3><i data-lucide="loader" class="icon icon-md"></i> Analizando con IA...</h3>
+      <p>Espera unos segundos mientras Gemini analiza la imagen.</p>
+    `;
+    lucide.createIcons();
+
+    logsDiv.style.display = 'block';
+    logsDiv.innerHTML = '';
+
+    log("Iniciando análisis...", '#0ff', 'rocket');
+
+    try {
+      // ✅ Comprimir antes de mandar
+      const tComp = performance.now();
+      const base64 = await redimensionarImagen(file, 800, 0.75);
+      const tCompFin = Math.round(performance.now() - tComp);
+      log(`Imagen optimizada (${tCompFin}ms)`, '#0ff', 'image');
+
+      const analisis = await analizarConGemini(base64);
+      mostrarResultado(analisis);
+    } catch (err) {
+      console.error("Error completo:", err);
+      log(`Error: ${err.message}`, '#f00', 'x-circle');
       resultado.innerHTML = `
-        <h3><i data-lucide="loader" class="icon icon-md"></i> Analizando con IA...</h3>
-        <p>Espera unos segundos mientras Gemini analiza la imagen.</p>
+        <h3><i data-lucide="alert-triangle" class="icon icon-md"></i> Error al analizar</h3>
+        <p style="font-size:0.85rem;word-break:break-word;">${err.message}</p>
       `;
       lucide.createIcons();
-
-      try {
-        const analisis = await analizarConGemini(base64);
-        mostrarResultado(analisis);
-      } catch (err) {
-        console.error("Error completo:", err);
-        resultado.innerHTML = `
-          <h3><i data-lucide="alert-triangle" class="icon icon-md"></i> Error al analizar</h3>
-          <p style="font-size:0.85rem;word-break:break-word;">${err.message}</p>
-        `;
-        lucide.createIcons();
-      }
-    };
-    reader.readAsDataURL(file);
+    }
   });
 
   async function analizarConGemini(imagenBase64) {
-    const logsDiv = document.getElementById('logs');
-    logsDiv.style.display = 'block';
-    logsDiv.innerHTML = '';
-    const log = (msg, color = '#0f0') => {
-      const hora = new Date().toLocaleTimeString();
-      logsDiv.innerHTML += `<div style="color:${color};">[${hora}] ${msg}</div>`;
-      logsDiv.scrollTop = logsDiv.scrollHeight;
-    };
-
-    log("🚀 Iniciando análisis...", '#0ff');
-
     const prompt = `Analiza esta foto. ¿Es aceite vegetal usado de cocina?
 
 Responde ÚNICAMENTE con este JSON exacto, sin texto extra ni bloques de código:
@@ -521,7 +584,7 @@ Valores permitidos:
     for (const modelo of modelos) {
       for (let intento = 1; intento <= 2; intento++) {
         try {
-          log(`🔵 Probando ${modelo} (intento ${intento})...`, '#ff0');
+          log(`Probando ${modelo} (intento ${intento})...`, '#ff0', 'search');
           const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${API_KEY}`;
           const t0 = performance.now();
 
@@ -531,11 +594,10 @@ Valores permitidos:
             body: body
           });
 
-          const t1 = performance.now();
-          const duracion = Math.round(t1 - t0);
+          const duracion = Math.round(performance.now() - t0);
 
           if (resp.status === 503 || resp.status === 429) {
-            log(`⚠️ ${modelo} saturado (${resp.status}) — esperando 1.5s...`, '#f80');
+            log(`${modelo} saturado (${resp.status}), esperando...`, '#f80', 'clock');
             await new Promise(r => setTimeout(r, 1500 * intento));
             continue;
           }
@@ -543,12 +605,12 @@ Valores permitidos:
           if (!resp.ok) {
             const err = await resp.text();
             ultimoError = `Error ${resp.status}: ${err.substring(0, 200)}`;
-            log(`❌ ${modelo} falló: ${resp.status}`, '#f00');
+            log(`${modelo} falló: ${resp.status}`, '#f00', 'x-circle');
             break;
           }
 
           const data = await resp.json();
-          log(`✅ ${modelo} respondió en ${duracion}ms`, '#0f0');
+          log(`${modelo} respondió en ${duracion}ms`, '#0f0', 'check-circle');
 
           let texto = data.candidates[0].content.parts[0].text;
           texto = texto.replace(/```json|```/g, "").trim();
@@ -557,20 +619,20 @@ Valores permitidos:
           if (inicio !== -1 && fin !== -1) texto = texto.substring(inicio, fin + 1);
 
           const json = JSON.parse(texto);
-          log(`📊 Recomendación: ${json.recomendacion}`, '#0ff');
-          log(`🏆 MODELO GANADOR: ${modelo}`, '#0ff');
+          log(`Recomendación: ${json.recomendacion}`, '#0ff', 'target');
+          log(`Modelo ganador: ${modelo}`, '#0ff', 'trophy');
 
           return json;
 
         } catch (err) {
           ultimoError = err.message;
-          log(`⚠️ ${modelo} error: ${err.message}`, '#f80');
+          log(`${modelo} error: ${err.message}`, '#f80', 'alert-triangle');
           await new Promise(r => setTimeout(r, 800));
         }
       }
     }
 
-    log(`💥 Todos los modelos fallaron`, '#f00');
+    log(`Todos los modelos fallaron`, '#f00', 'x-octagon');
     throw new Error("Todos los modelos están saturados. Espera 30 segundos y vuelve a intentar.");
   }
 
@@ -611,10 +673,10 @@ Valores permitidos:
 
   function mapearRecomendacion(a) {
     const mapa = {
-      vela:         { clase: 'rec-vela',      icono: 'flame',          texto: '🕯️ Ideal para hacer VELAS aromatizadas.' },
-      jabon:        { clase: 'rec-jabon',     icono: 'droplet',        texto: '🧼 Perfecto para hacer JABÓN casero.' },
-      desechar:     { clase: 'rec-desechar',  icono: 'alert-triangle', texto: '🚫 Mejor deséchalo en un punto limpio.' },
-      no_es_aceite: { clase: 'rec-desechar',  icono: 'x-circle',       texto: '❌ No parece aceite. Sube otra foto.' }
+      vela:         { clase: 'rec-vela',      icono: 'flame',          texto: 'Ideal para hacer VELAS aromatizadas.' },
+      jabon:        { clase: 'rec-jabon',     icono: 'droplet',        texto: 'Perfecto para hacer JABÓN casero.' },
+      desechar:     { clase: 'rec-desechar',  icono: 'alert-triangle', texto: 'Mejor deséchalo en un punto limpio.' },
+      no_es_aceite: { clase: 'rec-desechar',  icono: 'x-circle',       texto: 'No parece aceite. Sube otra foto.' }
     };
     return mapa[a.recomendacion] || mapa.no_es_aceite;
   }
