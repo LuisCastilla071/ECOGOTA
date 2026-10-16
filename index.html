@@ -419,12 +419,11 @@
   <p>© 2026 <strong>ECOGOTA</strong> – Transformando aceite en vida. Todos los derechos reservados.</p>
 </footer>
 
-<!-- ===== ESCÁNER CON GEMINI IA ===== -->
+<!-- ===== ESCÁNER CON GEMINI 2.5 FLASH ===== -->
 <script>
   lucide.createIcons();
 
-  // ===== CLAVE DE API DIVIDIDA (para evitar bloqueo de GitHub) =====
-  // No subas esta sección a un repo público sin revisar el .gitignore
+  // ===== CLAVE DIVIDIDA (para evitar bloqueo de GitHub) =====
   const _k1 = "AQ.Ab8RN6Jwu1ULk";
   const _k2 = "RscOP5vL8fi8dnuT";
   const _k3 = "uEnl81Ujx8ztmm-xM-zXw";
@@ -439,7 +438,6 @@
     if (!file) return;
 
     const reader = new FileReader();
-
     reader.onload = async function(event) {
       const base64 = event.target.result;
       preview.src = base64;
@@ -456,10 +454,10 @@
         const analisis = await analizarConGemini(base64);
         mostrarResultado(analisis);
       } catch (err) {
-        console.error(err);
+        console.error("Error completo:", err);
         resultado.innerHTML = `
           <h3><i data-lucide="alert-triangle" class="icon icon-md"></i> Error al analizar</h3>
-          <p style="font-size:0.9rem;">${err.message}</p>
+          <p style="font-size:0.85rem;word-break:break-word;">${err.message}</p>
         `;
         lucide.createIcons();
       }
@@ -468,8 +466,7 @@
   });
 
   async function analizarConGemini(imagenBase64) {
-    const prompt = `
-Analiza esta foto. ¿Es aceite vegetal usado de cocina?
+    const prompt = `Analiza esta foto. ¿Es aceite vegetal usado de cocina?
 
 Responde ÚNICAMENTE con este JSON exacto, sin texto extra ni bloques de código:
 {
@@ -489,10 +486,12 @@ Valores permitidos:
 - transparencia: "limpio", "algo_turbio", "muy_turbio" o "no_aplica"
 - calidad: "excelente", "buena", "regular", "mala" o "no_aplica"
 - recomendacion: "vela", "jabon", "desechar" o "no_es_aceite"
-- razon: máximo 15 palabras
-`.trim();
+- razon: máximo 15 palabras`;
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+    // ✅ MODELO CORREGIDO (gemini-2.5-flash en lugar de 2.0-flash)
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+
+    console.log("🔵 Enviando imagen a Gemini 2.5 Flash...");
 
     const resp = await fetch(url, {
       method: "POST",
@@ -509,21 +508,19 @@ Valores permitidos:
 
     if (!resp.ok) {
       const err = await resp.text();
-      throw new Error("Gemini respondió: " + resp.status + " — " + err.substring(0, 200));
+      console.error("🔴 Error de Gemini:", resp.status, err);
+      throw new Error(`Error ${resp.status}: ${err.substring(0, 250)}`);
     }
 
     const data = await resp.json();
-    let texto = data.candidates[0].content.parts[0].text;
+    console.log("🟢 Respuesta de Gemini:", data);
 
-    // Limpiar posible markdown
+    let texto = data.candidates[0].content.parts[0].text;
     texto = texto.replace(/```json|```/g, "").trim();
 
-    // Extraer solo el JSON
     const inicio = texto.indexOf("{");
     const fin = texto.lastIndexOf("}");
-    if (inicio !== -1 && fin !== -1) {
-      texto = texto.substring(inicio, fin + 1);
-    }
+    if (inicio !== -1 && fin !== -1) texto = texto.substring(inicio, fin + 1);
 
     return JSON.parse(texto);
   }
@@ -539,13 +536,13 @@ Valores permitidos:
         <strong>¿Es aceite?</strong> ${a.es_aceite ? "Sí" : "No"}
       </div>
       <div class="dato">
-        <strong>Estado:</strong> ${a.estado.replace('_', ' ')}
+        <strong>Estado:</strong> ${String(a.estado).replace('_', ' ')}
       </div>
       <div class="dato">
         <strong>Color:</strong> ${a.color}
       </div>
       <div class="dato">
-        <strong>Transparencia:</strong> ${a.transparencia.replace('_', ' ')}
+        <strong>Transparencia:</strong> ${String(a.transparencia).replace('_', ' ')}
       </div>
       <div class="dato">
         <strong>Calidad:</strong> ${a.calidad}
