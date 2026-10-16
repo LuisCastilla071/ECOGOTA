@@ -117,10 +117,7 @@
     }
     .escaner-card:hover { border-color: var(--verde); background: #F1F8E9; }
     .escaner-card input[type="file"] { display: none; }
-    .escaner-card label.btn {
-      display: inline-flex;
-      margin: 0 auto;
-    }
+    .escaner-card label.btn { display: inline-flex; margin: 0 auto; }
     .escaner-hint { color: var(--texto-suave); font-size: 0.92rem; margin-top: 15px; }
     .preview-img {
       max-width: 260px; width: 100%; border-radius: 14px;
@@ -281,7 +278,6 @@
       .hero { padding: 35px 6% 40px; }
       section { padding: 35px 6%; }
 
-      /* ✅ Botón del escáner centrado y a lo ancho en móvil */
       .escaner-card { padding: 30px 20px; }
       .escaner-card label.btn {
         display: flex;
@@ -295,7 +291,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="site-header">
   <a href="#inicio" class="logo">
     <img src="img/ECOGOTA.jpeg" alt="Logo ECOGOTA">
@@ -311,7 +306,6 @@
   </nav>
 </header>
 
-<!-- HERO -->
 <header class="hero" id="inicio">
   <div class="hero-content">
     <h1>Tu aceite usado vale más de lo que crees. ¡Haz jabón y velas en casa!</h1>
@@ -324,7 +318,6 @@
   <img src="img/ACEITE_VELA.jpg" alt="Frasco con aceite reciclado junto a una barra de jabón casero y una vela encendida sobre mesa de madera">
 </header>
 
-<!-- ESCÁNER -->
 <section id="escaner">
   <h2 class="seccion-titulo">
     <i data-lucide="scan-line" class="icon icon-lg"></i>
@@ -346,7 +339,6 @@
   </div>
 </section>
 
-<!-- PASO PREVIO -->
 <section id="filtrar">
   <h2 class="seccion-titulo">
     <i data-lucide="filter" class="icon icon-lg"></i>
@@ -370,7 +362,6 @@
   <img class="seccion-img" src="img/ACEITE_QUEMADO_2.jpeg" alt="Primer plano de aceite dorado siendo vertido a través de un filtro de tela hacia un frasco de vidrio transparente">
 </section>
 
-<!-- JABÓN -->
 <section id="jabon">
   <div class="bloque">
     <div>
@@ -400,7 +391,6 @@
   </div>
 </section>
 
-<!-- VELAS -->
 <section id="velas">
   <div class="bloque">
     <div>
@@ -427,7 +417,6 @@
   </div>
 </section>
 
-<!-- CTA FINAL -->
 <div class="cta-final" id="comparte">
   <h2>¿Hiciste tu primer jabón o vela?</h2>
   <p>¡Sube tu foto a redes sociales, etiqueta a nuestro equipo y ayuda a inspirar a más personas a salvar miles de litros de agua!</p>
@@ -438,7 +427,6 @@
   <img src="img/ECOGOTA.jpeg" alt="Logo ECOGOTA representando el impacto ecológico positivo">
 </div>
 
-<!-- FOOTER -->
 <footer class="site-footer">
   <div class="footer-iconos">
     <i data-lucide="leaf" class="icon icon-sm"></i>
@@ -448,11 +436,10 @@
   <p>© 2026 <strong>ECOGOTA</strong> – Transformando aceite en vida. Todos los derechos reservados.</p>
 </footer>
 
-<!-- ===== ESCÁNER CON GEMINI + LOGS CON ICONOS ===== -->
+<!-- ===== ESCÁNER OPTIMIZADO ===== -->
 <script>
   lucide.createIcons();
 
-  // ===== CLAVE DIVIDIDA =====
   const _k1 = "AQ.Ab8RN6Jwu1ULk";
   const _k2 = "RscOP5vL8fi8dnuT";
   const _k3 = "uEnl81Ujx8ztmm-xM-zXw";
@@ -463,8 +450,8 @@
   const resultado = document.getElementById('resultado');
   const logsDiv   = document.getElementById('logs');
 
-  // ✅ Redimensionar imagen antes de enviarla (acelera 10x la respuesta)
-  function redimensionarImagen(file, maxAncho = 800, calidad = 0.75) {
+  // ✅ Comprimir más agresivo: 512px, calidad 60%
+  function redimensionarImagen(file, maxAncho = 512, calidad = 0.6) {
     return new Promise((resolve) => {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -484,7 +471,6 @@
     });
   }
 
-  // ✅ Log con iconos Lucide (sin emojis)
   const log = (msg, color = '#0f0', icon = 'info') => {
     const hora = new Date().toLocaleTimeString();
     const line = document.createElement('div');
@@ -500,7 +486,6 @@
     const file = e.target.files[0];
     if (!file) return;
 
-    // Mostrar preview original (sin comprimir visualmente)
     const readerPreview = new FileReader();
     readerPreview.onload = (ev) => {
       preview.src = ev.target.result;
@@ -521,9 +506,8 @@
     log("Iniciando análisis...", '#0ff', 'rocket');
 
     try {
-      // ✅ Comprimir antes de mandar
       const tComp = performance.now();
-      const base64 = await redimensionarImagen(file, 800, 0.75);
+      const base64 = await redimensionarImagen(file, 512, 0.6);
       const tCompFin = Math.round(performance.now() - tComp);
       log(`Imagen optimizada (${tCompFin}ms)`, '#0ff', 'image');
 
@@ -541,99 +525,94 @@
   });
 
   async function analizarConGemini(imagenBase64) {
-    const prompt = `Analiza esta foto. ¿Es aceite vegetal usado de cocina?
-
-Responde ÚNICAMENTE con este JSON exacto, sin texto extra ni bloques de código:
-{
-  "es_aceite": true,
-  "estado": "liquido",
-  "color": "claro",
-  "transparencia": "limpio",
-  "calidad": "buena",
-  "recomendacion": "vela",
-  "razon": "texto breve en español"
-}
-
+    // Prompt corto = respuesta más rápida
+    const prompt = `Analiza esta foto. ¿Es aceite vegetal usado de cocina? Responde SOLO con este JSON, sin markdown ni texto extra:
+{"es_aceite":true,"estado":"liquido","color":"claro","transparencia":"limpio","calidad":"buena","recomendacion":"vela","razon":"texto breve en español"}
 Valores permitidos:
-- es_aceite: true o false
-- estado: "liquido", "solido" o "no_aplica"
-- color: "claro", "dorado", "oscuro", "quemado" o "no_aplica"
-- transparencia: "limpio", "algo_turbio", "muy_turbio" o "no_aplica"
-- calidad: "excelente", "buena", "regular", "mala" o "no_aplica"
-- recomendacion: "vela", "jabon", "desechar" o "no_es_aceite"
-- razon: máximo 15 palabras`;
+- estado: "liquido" | "solido" | "no_aplica"
+- color: "claro" | "dorado" | "oscuro" | "quemado" | "no_aplica"
+- transparencia: "limpio" | "algo_turbio" | "muy_turbio" | "no_aplica"
+- calidad: "excelente" | "buena" | "regular" | "mala" | "no_aplica"
+- recomendacion: "vela" | "jabon" | "desechar" | "no_es_aceite"
+- razon: máx 15 palabras`;
 
+    // ✅ Orden por velocidad: lite primero (más rápidos), luego full
     const modelos = [
-      "gemini-3.8-flash",
-      "gemini-3.5-flash",
+      "gemini-2.5-flash-lite",
+      "gemini-3.1-flash-lite",
+      "gemini-flash-lite-latest",
       "gemini-2.5-flash",
       "gemini-flash-latest"
     ];
 
+    // ✅ Desactivar "thinking" y limitar tokens = respuesta INSTANTÁNEA
     const body = JSON.stringify({
       contents: [{
         parts: [
           { text: prompt },
           { inline_data: { mime_type: "image/jpeg", data: imagenBase64.split(',')[1] } }
         ]
-      }]
+      }],
+      generationConfig: {
+        temperature: 0.2,
+        maxOutputTokens: 300,
+        thinkingConfig: {
+          thinkingBudget: 0
+        }
+      }
     });
 
     let ultimoError = null;
 
     for (const modelo of modelos) {
-      for (let intento = 1; intento <= 2; intento++) {
-        try {
-          log(`Probando ${modelo} (intento ${intento})...`, '#ff0', 'search');
-          const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${API_KEY}`;
-          const t0 = performance.now();
+      try {
+        log(`Probando ${modelo}...`, '#ff0', 'search');
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${API_KEY}`;
+        const t0 = performance.now();
 
-          const resp = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: body
-          });
+        const resp = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: body
+        });
 
-          const duracion = Math.round(performance.now() - t0);
+        const duracion = Math.round(performance.now() - t0);
 
-          if (resp.status === 503 || resp.status === 429) {
-            log(`${modelo} saturado (${resp.status}), esperando...`, '#f80', 'clock');
-            await new Promise(r => setTimeout(r, 1500 * intento));
-            continue;
-          }
-
-          if (!resp.ok) {
-            const err = await resp.text();
-            ultimoError = `Error ${resp.status}: ${err.substring(0, 200)}`;
-            log(`${modelo} falló: ${resp.status}`, '#f00', 'x-circle');
-            break;
-          }
-
-          const data = await resp.json();
-          log(`${modelo} respondió en ${duracion}ms`, '#0f0', 'check-circle');
-
-          let texto = data.candidates[0].content.parts[0].text;
-          texto = texto.replace(/```json|```/g, "").trim();
-          const inicio = texto.indexOf("{");
-          const fin = texto.lastIndexOf("}");
-          if (inicio !== -1 && fin !== -1) texto = texto.substring(inicio, fin + 1);
-
-          const json = JSON.parse(texto);
-          log(`Recomendación: ${json.recomendacion}`, '#0ff', 'target');
-          log(`Modelo ganador: ${modelo}`, '#0ff', 'trophy');
-
-          return json;
-
-        } catch (err) {
-          ultimoError = err.message;
-          log(`${modelo} error: ${err.message}`, '#f80', 'alert-triangle');
-          await new Promise(r => setTimeout(r, 800));
+        if (resp.status === 503 || resp.status === 429) {
+          log(`${modelo} saturado (${resp.status}), siguiente...`, '#f80', 'clock');
+          continue;
         }
+
+        if (!resp.ok) {
+          const err = await resp.text();
+          ultimoError = `Error ${resp.status}: ${err.substring(0, 200)}`;
+          log(`${modelo} falló: ${resp.status}`, '#f00', 'x-circle');
+          continue;
+        }
+
+        const data = await resp.json();
+        log(`${modelo} respondió en ${duracion}ms`, '#0f0', 'check-circle');
+
+        let texto = data.candidates[0].content.parts[0].text;
+        texto = texto.replace(/```json|```/g, "").trim();
+        const inicio = texto.indexOf("{");
+        const fin = texto.lastIndexOf("}");
+        if (inicio !== -1 && fin !== -1) texto = texto.substring(inicio, fin + 1);
+
+        const json = JSON.parse(texto);
+        log(`Recomendación: ${json.recomendacion}`, '#0ff', 'target');
+        log(`Modelo ganador: ${modelo}`, '#0ff', 'trophy');
+
+        return json;
+
+      } catch (err) {
+        ultimoError = err.message;
+        log(`${modelo} error: ${err.message}`, '#f80', 'alert-triangle');
       }
     }
 
     log(`Todos los modelos fallaron`, '#f00', 'x-octagon');
-    throw new Error("Todos los modelos están saturados. Espera 30 segundos y vuelve a intentar.");
+    throw new Error("Todos los modelos están ocupados. Espera unos segundos e intenta de nuevo.");
   }
 
   function mostrarResultado(a) {
@@ -643,21 +622,11 @@ Valores permitidos:
     resultado.innerHTML = `
       <h3><i data-lucide="scan-line" class="icon icon-md"></i> Análisis completado</h3>
 
-      <div class="dato">
-        <strong>¿Es aceite?</strong> ${a.es_aceite ? "Sí" : "No"}
-      </div>
-      <div class="dato">
-        <strong>Estado:</strong> ${String(a.estado).replace('_', ' ')}
-      </div>
-      <div class="dato">
-        <strong>Color:</strong> ${a.color}
-      </div>
-      <div class="dato">
-        <strong>Transparencia:</strong> ${String(a.transparencia).replace('_', ' ')}
-      </div>
-      <div class="dato">
-        <strong>Calidad:</strong> ${a.calidad}
-      </div>
+      <div class="dato"><strong>¿Es aceite?</strong> ${a.es_aceite ? "Sí" : "No"}</div>
+      <div class="dato"><strong>Estado:</strong> ${String(a.estado).replace('_', ' ')}</div>
+      <div class="dato"><strong>Color:</strong> ${a.color}</div>
+      <div class="dato"><strong>Transparencia:</strong> ${String(a.transparencia).replace('_', ' ')}</div>
+      <div class="dato"><strong>Calidad:</strong> ${a.calidad}</div>
 
       <div class="recomendacion ${rec.clase}">
         <i data-lucide="${rec.icono}" class="icon icon-md"></i>
