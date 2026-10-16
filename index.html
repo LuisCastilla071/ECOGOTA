@@ -80,16 +80,29 @@
 
     /* BOTONES */
     .btn {
-      display: inline-flex; align-items: center; gap: 10px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
       background: var(--cta); color: white;
       padding: 15px 30px; border-radius: 50px; text-decoration: none;
       font-weight: 600; font-size: 1rem;
       transition: all 0.25s ease;
       box-shadow: 0 6px 20px rgba(255,111,0,0.35);
       border: none; cursor: pointer;
+      font-family: 'Inter', sans-serif;
     }
     .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(255,111,0,0.5); }
     .btn .icon { color: currentColor; }
+
+    .btn-secondary {
+      background: white;
+      color: var(--texto);
+      border: 2px solid #ddd;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .btn-secondary:hover {
+      border-color: var(--verde);
+      color: var(--verde);
+      box-shadow: 0 6px 20px rgba(46,125,50,0.15);
+    }
 
     /* SECCIONES */
     section { padding: 45px 8%; max-width: 1200px; margin: auto; }
@@ -114,18 +127,30 @@
       padding: 40px 30px; text-align: center; background: white;
       max-width: 700px; margin: auto; box-shadow: var(--sombra-sm);
       transition: border-color 0.25s, background 0.25s;
+      display: flex; flex-direction: column; align-items: center;
     }
     .escaner-card:hover { border-color: var(--verde); background: #F1F8E9; }
     .escaner-card input[type="file"] { display: none; }
-    .escaner-card label.btn { display: inline-flex; margin: 0 auto; }
-    .escaner-hint { color: var(--texto-suave); font-size: 0.92rem; margin-top: 15px; }
+    .escaner-hint { color: var(--texto-suave); font-size: 0.92rem; margin-top: 15px; text-align: center; }
     .preview-img {
       max-width: 260px; width: 100%; border-radius: 14px;
       margin: 20px auto 0; display: block; box-shadow: var(--sombra-sm);
     }
+
+    /* Botones debajo de la imagen */
+    .preview-actions {
+      display: none;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+    .preview-actions.visible { display: flex; }
+
     .resultado-box {
       margin-top: 25px; padding: 22px 20px; border-radius: 16px;
       font-size: 1rem; display: none; text-align: left; animation: fadeIn 0.4s ease;
+      width: 100%;
     }
     .resultado-box.visible { display: block; }
     .resultado-box h3 {
@@ -145,20 +170,6 @@
     .rec-vela     { background: #FFF8E1; color: #7A5C00; border-left: 5px solid var(--amarillo); }
     .rec-jabon    { background: #E8F5E9; color: var(--verde-oscuro); border-left: 5px solid var(--verde); }
     .rec-desechar { background: #FFEBEE; color: #B71C1C; border-left: 5px solid #E53935; }
-
-    /* LOGS */
-    .logs-box {
-      margin-top: 20px; padding: 15px; background: #1a1a1a; color: #0f0;
-      font-family: 'Courier New', monospace; font-size: 0.82rem;
-      border-radius: 10px; max-height: 220px; overflow-y: auto;
-      text-align: left; display: none;
-    }
-    .log-line {
-      display: flex; align-items: center; gap: 8px;
-      padding: 3px 0; line-height: 1.4;
-    }
-    .log-line .icon { width: 14px; height: 14px; stroke-width: 2.5; flex-shrink: 0; }
-    .log-time { opacity: 0.6; margin-right: 4px; }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -286,11 +297,14 @@
         max-width: 320px;
         margin: 0 auto;
       }
+      .preview-actions { flex-direction: column; align-items: center; }
+      .preview-actions .btn { width: 100%; max-width: 280px; }
     }
   </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <header class="site-header">
   <a href="#inicio" class="logo">
     <img src="img/ECOGOTA.jpeg" alt="Logo ECOGOTA">
@@ -306,6 +320,7 @@
   </nav>
 </header>
 
+<!-- HERO -->
 <header class="hero" id="inicio">
   <div class="hero-content">
     <h1>Tu aceite usado vale más de lo que crees. ¡Haz jabón y velas en casa!</h1>
@@ -318,6 +333,7 @@
   <img src="img/ACEITE_VELA.jpg" alt="Frasco con aceite reciclado junto a una barra de jabón casero y una vela encendida sobre mesa de madera">
 </header>
 
+<!-- ESCÁNER -->
 <section id="escaner">
   <h2 class="seccion-titulo">
     <i data-lucide="scan-line" class="icon icon-lg"></i>
@@ -327,18 +343,30 @@
 
   <div class="escaner-card">
     <input type="file" id="foto" accept="image/*">
-    <label for="foto" class="btn">
+    <label for="foto" class="btn" id="btn-subir">
       <i data-lucide="camera" class="icon"></i>
       SUBIR FOTO DEL ACEITE
     </label>
-    <p class="escaner-hint"><strong>Tip:</strong> Coloca el aceite en un recipiente claro sobre fondo blanco, con buena luz.</p>
+    <p class="escaner-hint" id="hint-inicial"><strong>Tip:</strong> Coloca el aceite en un recipiente claro sobre fondo blanco, con buena luz.</p>
 
     <img id="preview" class="preview-img" style="display:none;" alt="Vista previa del aceite">
+
+    <div class="preview-actions" id="preview-actions">
+      <label for="foto" class="btn btn-secondary">
+        <i data-lucide="refresh-cw" class="icon"></i>
+        CAMBIAR FOTO
+      </label>
+      <button type="button" class="btn btn-secondary" id="btn-quitar">
+        <i data-lucide="trash-2" class="icon"></i>
+        QUITAR FOTO
+      </button>
+    </div>
+
     <div id="resultado" class="resultado-box"></div>
-    <div id="logs" class="logs-box"></div>
   </div>
 </section>
 
+<!-- PASO PREVIO -->
 <section id="filtrar">
   <h2 class="seccion-titulo">
     <i data-lucide="filter" class="icon icon-lg"></i>
@@ -362,6 +390,7 @@
   <img class="seccion-img" src="img/ACEITE_QUEMADO_2.jpeg" alt="Primer plano de aceite dorado siendo vertido a través de un filtro de tela hacia un frasco de vidrio transparente">
 </section>
 
+<!-- JABÓN -->
 <section id="jabon">
   <div class="bloque">
     <div>
@@ -391,6 +420,7 @@
   </div>
 </section>
 
+<!-- VELAS -->
 <section id="velas">
   <div class="bloque">
     <div>
@@ -417,6 +447,7 @@
   </div>
 </section>
 
+<!-- CTA FINAL -->
 <div class="cta-final" id="comparte">
   <h2>¿Hiciste tu primer jabón o vela?</h2>
   <p>¡Sube tu foto a redes sociales, etiqueta a nuestro equipo y ayuda a inspirar a más personas a salvar miles de litros de agua!</p>
@@ -427,6 +458,7 @@
   <img src="img/ECOGOTA.jpeg" alt="Logo ECOGOTA representando el impacto ecológico positivo">
 </div>
 
+<!-- FOOTER -->
 <footer class="site-footer">
   <div class="footer-iconos">
     <i data-lucide="leaf" class="icon icon-sm"></i>
@@ -448,9 +480,11 @@
   const inputFoto = document.getElementById('foto');
   const preview   = document.getElementById('preview');
   const resultado = document.getElementById('resultado');
-  const logsDiv   = document.getElementById('logs');
+  const acciones  = document.getElementById('preview-actions');
+  const btnQuitar = document.getElementById('btn-quitar');
+  const btnSubir  = document.getElementById('btn-subir');
+  const hint      = document.getElementById('hint-inicial');
 
-  // ✅ Comprimir más agresivo: 512px, calidad 60%
   function redimensionarImagen(file, maxAncho = 512, calidad = 0.6) {
     return new Promise((resolve) => {
       const reader = new FileReader();
@@ -471,20 +505,16 @@
     });
   }
 
-  const log = (msg, color = '#0f0', icon = 'info') => {
-    const hora = new Date().toLocaleTimeString();
-    const line = document.createElement('div');
-    line.className = 'log-line';
-    line.style.color = color;
-    line.innerHTML = `<i data-lucide="${icon}" class="icon"></i><span class="log-time">[${hora}]</span> ${msg}`;
-    logsDiv.appendChild(line);
-    logsDiv.scrollTop = logsDiv.scrollHeight;
-    lucide.createIcons();
-  };
+  // ✅ Log solo en consola, invisible al usuario
+  const log = (msg) => console.log("[ECOGOTA]", msg);
 
   inputFoto.addEventListener('change', async function(e) {
     const file = e.target.files[0];
     if (!file) return;
+
+    // Ocultar botón "subir" y mostrar imagen + acciones
+    btnSubir.style.display = 'none';
+    hint.style.display = 'none';
 
     const readerPreview = new FileReader();
     readerPreview.onload = (ev) => {
@@ -493,6 +523,8 @@
     };
     readerPreview.readAsDataURL(file);
 
+    acciones.classList.add('visible');
+
     resultado.className = 'resultado-box visible';
     resultado.innerHTML = `
       <h3><i data-lucide="loader" class="icon icon-md"></i> Analizando con IA...</h3>
@@ -500,22 +532,15 @@
     `;
     lucide.createIcons();
 
-    logsDiv.style.display = 'block';
-    logsDiv.innerHTML = '';
-
-    log("Iniciando análisis...", '#0ff', 'rocket');
+    log("Iniciando análisis...");
 
     try {
-      const tComp = performance.now();
       const base64 = await redimensionarImagen(file, 512, 0.6);
-      const tCompFin = Math.round(performance.now() - tComp);
-      log(`Imagen optimizada (${tCompFin}ms)`, '#0ff', 'image');
-
+      log("Imagen optimizada");
       const analisis = await analizarConGemini(base64);
       mostrarResultado(analisis);
     } catch (err) {
       console.error("Error completo:", err);
-      log(`Error: ${err.message}`, '#f00', 'x-circle');
       resultado.innerHTML = `
         <h3><i data-lucide="alert-triangle" class="icon icon-md"></i> Error al analizar</h3>
         <p style="font-size:0.85rem;word-break:break-word;">${err.message}</p>
@@ -524,19 +549,36 @@
     }
   });
 
+  // ✅ Botón "Quitar foto" — resetea todo
+  btnQuitar.addEventListener('click', () => {
+    inputFoto.value = '';
+    preview.style.display = 'none';
+    preview.src = '';
+    resultado.className = 'resultado-box';
+    resultado.innerHTML = '';
+    acciones.classList.remove('visible');
+    btnSubir.style.display = 'inline-flex';
+    hint.style.display = 'block';
+    lucide.createIcons();
+  });
+
   async function analizarConGemini(imagenBase64) {
-    // Prompt corto = respuesta más rápida
     const prompt = `Analiza esta foto. ¿Es aceite vegetal usado de cocina? Responde SOLO con este JSON, sin markdown ni texto extra:
 {"es_aceite":true,"estado":"liquido","color":"claro","transparencia":"limpio","calidad":"buena","recomendacion":"vela","razon":"texto breve en español"}
 Valores permitidos:
 - estado: "liquido" | "solido" | "no_aplica"
-- color: "claro" | "dorado" | "oscuro" | "quemado" | "no_aplica"
+- color: "claro" | "medio_claro" | "dorado" | "medio_quemado" | "quemado" | "no_aplica"
 - transparencia: "limpio" | "algo_turbio" | "muy_turbio" | "no_aplica"
 - calidad: "excelente" | "buena" | "regular" | "mala" | "no_aplica"
 - recomendacion: "vela" | "jabon" | "desechar" | "no_es_aceite"
-- razon: máx 15 palabras`;
+- razon: máx 15 palabras
 
-    // ✅ Orden por velocidad: lite primero (más rápidos), luego full
+Reglas de recomendación:
+- Aceite claro o medio_claro y limpio → "vela"
+- Aceite dorado, medio_quemado o quemado → "jabon"
+- Aceite muy sucio, con residuos sólidos o no identificable → "desechar"
+- Si la imagen no es aceite → "no_es_aceite"`;
+
     const modelos = [
       "gemini-2.5-flash-lite",
       "gemini-3.1-flash-lite",
@@ -545,7 +587,6 @@ Valores permitidos:
       "gemini-flash-latest"
     ];
 
-    // ✅ Desactivar "thinking" y limitar tokens = respuesta INSTANTÁNEA
     const body = JSON.stringify({
       contents: [{
         parts: [
@@ -556,9 +597,7 @@ Valores permitidos:
       generationConfig: {
         temperature: 0.2,
         maxOutputTokens: 300,
-        thinkingConfig: {
-          thinkingBudget: 0
-        }
+        thinkingConfig: { thinkingBudget: 0 }
       }
     });
 
@@ -566,7 +605,7 @@ Valores permitidos:
 
     for (const modelo of modelos) {
       try {
-        log(`Probando ${modelo}...`, '#ff0', 'search');
+        log(`Probando ${modelo}...`);
         const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelo}:generateContent?key=${API_KEY}`;
         const t0 = performance.now();
 
@@ -579,19 +618,19 @@ Valores permitidos:
         const duracion = Math.round(performance.now() - t0);
 
         if (resp.status === 503 || resp.status === 429) {
-          log(`${modelo} saturado (${resp.status}), siguiente...`, '#f80', 'clock');
+          log(`${modelo} saturado (${resp.status}), siguiente...`);
           continue;
         }
 
         if (!resp.ok) {
           const err = await resp.text();
           ultimoError = `Error ${resp.status}: ${err.substring(0, 200)}`;
-          log(`${modelo} falló: ${resp.status}`, '#f00', 'x-circle');
+          log(`${modelo} falló: ${resp.status}`);
           continue;
         }
 
         const data = await resp.json();
-        log(`${modelo} respondió en ${duracion}ms`, '#0f0', 'check-circle');
+        log(`${modelo} respondió en ${duracion}ms`);
 
         let texto = data.candidates[0].content.parts[0].text;
         texto = texto.replace(/```json|```/g, "").trim();
@@ -600,33 +639,59 @@ Valores permitidos:
         if (inicio !== -1 && fin !== -1) texto = texto.substring(inicio, fin + 1);
 
         const json = JSON.parse(texto);
-        log(`Recomendación: ${json.recomendacion}`, '#0ff', 'target');
-        log(`Modelo ganador: ${modelo}`, '#0ff', 'trophy');
-
+        log(`Recomendación: ${json.recomendacion}`);
+        log(`Modelo ganador: ${modelo}`);
         return json;
 
       } catch (err) {
         ultimoError = err.message;
-        log(`${modelo} error: ${err.message}`, '#f80', 'alert-triangle');
+        log(`${modelo} error: ${err.message}`);
       }
     }
 
-    log(`Todos los modelos fallaron`, '#f00', 'x-octagon');
     throw new Error("Todos los modelos están ocupados. Espera unos segundos e intenta de nuevo.");
   }
 
   function mostrarResultado(a) {
     const rec = mapearRecomendacion(a);
 
+    // Traducir valores técnicos a etiquetas humanas
+    const colorHumano = {
+      'claro': 'Claro',
+      'medio_claro': 'Medio claro',
+      'dorado': 'Dorado',
+      'medio_quemado': 'Medio quemado',
+      'quemado': 'Quemado',
+      'no_aplica': 'No aplica'
+    };
+    const transHumano = {
+      'limpio': 'Limpio y transparente',
+      'algo_turbio': 'Algo turbio',
+      'muy_turbio': 'Muy turbio',
+      'no_aplica': 'No aplica'
+    };
+    const estadoHumano = {
+      'liquido': 'Líquido',
+      'solido': 'Sólido',
+      'no_aplica': 'No aplica'
+    };
+    const calidadHumano = {
+      'excelente': 'Excelente',
+      'buena': 'Buena',
+      'regular': 'Regular',
+      'mala': 'Mala',
+      'no_aplica': 'No aplica'
+    };
+
     resultado.className = 'resultado-box visible';
     resultado.innerHTML = `
       <h3><i data-lucide="scan-line" class="icon icon-md"></i> Análisis completado</h3>
 
       <div class="dato"><strong>¿Es aceite?</strong> ${a.es_aceite ? "Sí" : "No"}</div>
-      <div class="dato"><strong>Estado:</strong> ${String(a.estado).replace('_', ' ')}</div>
-      <div class="dato"><strong>Color:</strong> ${a.color}</div>
-      <div class="dato"><strong>Transparencia:</strong> ${String(a.transparencia).replace('_', ' ')}</div>
-      <div class="dato"><strong>Calidad:</strong> ${a.calidad}</div>
+      <div class="dato"><strong>Estado:</strong> ${estadoHumano[a.estado] || a.estado}</div>
+      <div class="dato"><strong>Color:</strong> ${colorHumano[a.color] || a.color}</div>
+      <div class="dato"><strong>Transparencia:</strong> ${transHumano[a.transparencia] || a.transparencia}</div>
+      <div class="dato"><strong>Calidad:</strong> ${calidadHumano[a.calidad] || a.calidad}</div>
 
       <div class="recomendacion ${rec.clase}">
         <i data-lucide="${rec.icono}" class="icon icon-md"></i>
