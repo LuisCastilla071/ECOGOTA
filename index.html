@@ -32,11 +32,7 @@
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
-    h1, h2, h3, h4 {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 700;
-      line-height: 1.2;
-    }
+    h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; font-weight: 700; line-height: 1.2; }
 
     .icon { width: 20px; height: 20px; stroke-width: 2.2; flex-shrink: 0; vertical-align: middle; }
     .icon-sm { width: 16px; height: 16px; }
@@ -45,94 +41,53 @@
 
     /* ===== HEADER ===== */
     .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 100;
       background: rgba(255,255,255,0.95);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       box-shadow: 0 2px 18px rgba(0,0,0,0.08);
       padding: 20px 8%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
     }
     .logo { display: flex; align-items: center; gap: 16px; text-decoration: none; }
     .logo img { height: 65px; width: auto; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-    .logo-text {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 800;
-      font-size: 1.9rem;
-      color: var(--verde);
-      letter-spacing: -1px;
-    }
+    .logo-text { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.9rem; color: var(--verde); letter-spacing: -1px; }
     .logo-text span { color: var(--amarillo); }
     .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
     .nav-links a {
-      text-decoration: none;
-      color: var(--texto);
-      font-weight: 500;
-      font-size: 1.05rem;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      transition: color 0.2s;
+      text-decoration: none; color: var(--texto); font-weight: 500; font-size: 1.05rem;
+      display: flex; align-items: center; gap: 7px; transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--verde); }
     .nav-links a .icon { color: var(--verde); width: 18px; height: 18px; }
 
     /* ===== HERO ===== */
     .hero {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 45px;
-      align-items: center;
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 45px; align-items: center;
       padding: 50px 8% 55px;
       background: linear-gradient(135deg, #E8F5E9 0%, #FFF8E1 60%, #FFFDE7 100%);
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
     .hero::before {
-      content: '';
-      position: absolute;
-      top: -100px; right: -100px;
+      content: ''; position: absolute; top: -100px; right: -100px;
       width: 400px; height: 400px;
       background: radial-gradient(circle, rgba(165,214,167,0.4) 0%, transparent 70%);
       border-radius: 50%;
     }
     .hero-content { position: relative; z-index: 1; }
-    .hero h1 {
-      font-size: 2.5rem;
-      color: var(--verde-oscuro);
-      margin-bottom: 18px;
-      letter-spacing: -0.8px;
-    }
+    .hero h1 { font-size: 2.5rem; color: var(--verde-oscuro); margin-bottom: 18px; letter-spacing: -0.8px; }
     .hero p { font-size: 1.1rem; margin-bottom: 28px; color: var(--texto-suave); max-width: 560px; }
-    .hero p strong { color: var(--cta); font-weight: 700; }
-    .hero img {
-      width: 100%;
-      border-radius: 20px;
-      box-shadow: var(--sombra-lg);
-      position: relative;
-      z-index: 1;
-    }
+    .hero img { width: 100%; border-radius: 20px; box-shadow: var(--sombra-lg); position: relative; z-index: 1; }
 
     /* ===== BOTONES ===== */
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--cta);
-      color: white;
-      padding: 15px 30px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1rem;
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--cta); color: white;
+      padding: 15px 30px; border-radius: 50px; text-decoration: none;
+      font-weight: 600; font-size: 1rem;
       transition: all 0.25s ease;
       box-shadow: 0 6px 20px rgba(255,111,0,0.35);
-      border: none;
-      cursor: pointer;
+      border: none; cursor: pointer;
     }
     .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(255,111,0,0.5); }
     .btn .icon { color: currentColor; }
@@ -140,111 +95,62 @@
     /* ===== SECCIONES ===== */
     section { padding: 45px 8%; max-width: 1200px; margin: auto; }
     .seccion-titulo {
-      font-size: 2rem;
-      color: var(--verde-oscuro);
-      margin-bottom: 12px;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      letter-spacing: -0.5px;
+      font-size: 2rem; color: var(--verde-oscuro); margin-bottom: 12px;
+      text-align: center; display: flex; align-items: center; justify-content: center;
+      gap: 14px; letter-spacing: -0.5px;
     }
     .seccion-titulo .icon { color: var(--amarillo); }
     .seccion-sub {
-      text-align: center;
-      color: var(--texto-suave);
-      margin-bottom: 30px;
-      max-width: 720px;
-      margin-left: auto;
-      margin-right: auto;
-      font-size: 1.02rem;
+      text-align: center; color: var(--texto-suave); margin-bottom: 30px;
+      max-width: 720px; margin-left: auto; margin-right: auto; font-size: 1.02rem;
     }
     .seccion-img {
-      width: 100%;
-      max-width: 700px;
-      display: block;
-      margin: 30px auto 0;
-      border-radius: 20px;
-      box-shadow: var(--sombra-md);
+      width: 100%; max-width: 700px; display: block; margin: 30px auto 0;
+      border-radius: 20px; box-shadow: var(--sombra-md);
     }
 
     /* ===== ESCÁNER ===== */
     .escaner-card {
-      border: 3px dashed var(--verde-claro);
-      border-radius: 20px;
-      padding: 40px 30px;
-      text-align: center;
-      background: white;
-      max-width: 700px;
-      margin: auto;
-      box-shadow: var(--sombra-sm);
+      border: 3px dashed var(--verde-claro); border-radius: 20px;
+      padding: 40px 30px; text-align: center; background: white;
+      max-width: 700px; margin: auto; box-shadow: var(--sombra-sm);
       transition: border-color 0.25s, background 0.25s;
     }
     .escaner-card:hover { border-color: var(--verde); background: #F1F8E9; }
     .escaner-card input[type="file"] { display: none; }
-    .escaner-hint {
-      color: var(--texto-suave);
-      font-size: 0.92rem;
-      margin-top: 15px;
-    }
+    .escaner-hint { color: var(--texto-suave); font-size: 0.92rem; margin-top: 15px; }
     .preview-img {
-      max-width: 260px;
-      width: 100%;
-      border-radius: 14px;
-      margin: 20px auto 0;
-      display: block;
-      box-shadow: var(--sombra-sm);
+      max-width: 260px; width: 100%; border-radius: 14px;
+      margin: 20px auto 0; display: block; box-shadow: var(--sombra-sm);
     }
     .resultado-box {
-      margin-top: 25px;
-      padding: 22px 20px;
-      border-radius: 16px;
-      font-size: 1rem;
-      display: none;
-      text-align: left;
-      animation: fadeIn 0.4s ease;
+      margin-top: 25px; padding: 22px 20px; border-radius: 16px;
+      font-size: 1rem; display: none; text-align: left; animation: fadeIn 0.4s ease;
     }
     .resultado-box.visible { display: block; }
     .resultado-box h3 {
-      font-size: 1.2rem;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      font-size: 1.2rem; margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
     }
     .resultado-box .color-swatch {
-      display: inline-block;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 3px solid white;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-      vertical-align: middle;
-      margin-right: 8px;
+      display: inline-block; width: 28px; height: 28px; border-radius: 50%;
+      border: 3px solid white; box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      vertical-align: middle; margin-right: 8px;
     }
     .resultado-box .dato {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 6px;
-      color: var(--texto-suave);
-      font-size: 0.95rem;
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 10px; color: var(--texto-suave); font-size: 0.97rem;
     }
     .resultado-box .dato strong { color: var(--texto); }
+    .resultado-box .dato .icon { color: var(--verde); }
     .resultado-box .recomendacion {
-      margin-top: 15px;
-      padding: 15px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 1.05rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      margin-top: 18px; padding: 16px; border-radius: 12px;
+      font-weight: 600; font-size: 1.05rem;
+      display: flex; align-items: center; gap: 12px;
     }
-    .rec-vela    { background: #FFF8E1; color: #7A5C00; border-left: 5px solid var(--amarillo); }
-    .rec-jabon   { background: #E8F5E9; color: var(--verde-oscuro); border-left: 5px solid var(--verde); }
-    .rec-desechar{ background: #FFEBEE; color: #B71C1C; border-left: 5px solid #E53935; }
+    .rec-vela     { background: #FFF8E1; color: #7A5C00; border-left: 5px solid var(--amarillo); }
+    .rec-jabon    { background: #E8F5E9; color: var(--verde-oscuro); border-left: 5px solid var(--verde); }
+    .rec-desechar { background: #FFEBEE; color: #B71C1C; border-left: 5px solid #E53935; }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -252,116 +158,59 @@
     }
 
     /* ===== PASO PREVIO ===== */
-    .pasos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 22px;
-      margin-top: 25px;
-    }
+    .pasos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; margin-top: 25px; }
     .paso-card {
-      background: var(--blanco);
-      padding: 28px 26px;
-      border-radius: 18px;
-      border-left: 6px solid var(--amarillo);
-      box-shadow: var(--sombra-sm);
+      background: var(--blanco); padding: 28px 26px; border-radius: 18px;
+      border-left: 6px solid var(--amarillo); box-shadow: var(--sombra-sm);
       transition: transform 0.25s, box-shadow 0.25s;
     }
     .paso-card:hover { transform: translateY(-4px); box-shadow: var(--sombra-md); }
     .paso-card .paso-icono {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: rgba(249,168,37,0.15);
-      color: var(--amarillo);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 14px;
+      width: 48px; height: 48px; border-radius: 14px;
+      background: rgba(249,168,37,0.15); color: var(--amarillo);
+      display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
     }
     .paso-card h3 { color: var(--verde-oscuro); margin-bottom: 8px; font-size: 1.15rem; }
     .paso-card p { color: var(--texto-suave); font-size: 0.96rem; }
 
-    /* ===== BLOQUES JABÓN / VELA ===== */
+    /* ===== BLOQUES ===== */
     .bloque {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 45px;
-      align-items: center;
-      background: var(--blanco);
-      padding: 40px;
-      border-radius: 26px;
-      box-shadow: var(--sombra-md);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 45px; align-items: center;
+      background: var(--blanco); padding: 40px; border-radius: 26px; box-shadow: var(--sombra-md);
     }
     .bloque h2 {
-      font-size: 1.8rem;
-      color: var(--verde-oscuro);
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      letter-spacing: -0.4px;
+      font-size: 1.8rem; color: var(--verde-oscuro); margin-bottom: 18px;
+      display: flex; align-items: center; gap: 14px; letter-spacing: -0.4px;
     }
     .bloque h2 .icon { color: var(--amarillo); }
     .bloque h3 {
-      font-size: 0.92rem;
-      color: var(--amarillo);
-      margin: 22px 0 10px;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 700;
+      font-size: 0.92rem; color: var(--amarillo); margin: 22px 0 10px;
+      text-transform: uppercase; letter-spacing: 1.2px;
+      display: flex; align-items: center; gap: 8px; font-weight: 700;
     }
     .bloque ul, .bloque ol { padding-left: 0; list-style: none; margin-bottom: 12px; }
     .bloque ul li, .bloque ol li {
-      margin-bottom: 8px;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      color: var(--texto-suave);
-      font-size: 0.97rem;
+      margin-bottom: 8px; display: flex; align-items: flex-start; gap: 10px;
+      color: var(--texto-suave); font-size: 0.97rem;
     }
     .bloque ul li::before {
-      content: '';
-      display: inline-block;
-      width: 6px; height: 6px;
-      background: var(--verde);
-      border-radius: 50%;
-      margin-top: 9px;
-      flex-shrink: 0;
+      content: ''; display: inline-block; width: 6px; height: 6px;
+      background: var(--verde); border-radius: 50%; margin-top: 9px; flex-shrink: 0;
     }
     .bloque ol { counter-reset: paso; }
     .bloque ol li { counter-increment: paso; padding-left: 32px; position: relative; }
     .bloque ol li::before {
-      content: counter(paso);
-      position: absolute;
-      left: 0; top: 0;
-      width: 22px; height: 22px;
-      background: var(--verde);
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.78rem;
-      font-weight: 700;
-      font-family: 'Poppins', sans-serif;
+      content: counter(paso); position: absolute; left: 0; top: 0;
+      width: 22px; height: 22px; background: var(--verde); color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem; font-weight: 700; font-family: 'Poppins', sans-serif;
     }
-    .bloque ol li strong,
-    .bloque ul li strong { color: var(--texto); }
+    .bloque ol li strong, .bloque ul li strong { color: var(--texto); }
 
     .alerta {
-      background: #FFF3E0;
-      border-left: 5px solid var(--cta);
-      padding: 14px 16px;
-      border-radius: 10px;
-      margin: 18px 0;
-      font-size: 0.94rem;
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      color: #7A3D00;
+      background: #FFF3E0; border-left: 5px solid var(--cta);
+      padding: 14px 16px; border-radius: 10px; margin: 18px 0;
+      font-size: 0.94rem; display: flex; gap: 12px; align-items: flex-start; color: #7A3D00;
     }
     .alerta .icon { color: var(--cta); margin-top: 2px; }
     .alerta strong { color: var(--cta); }
@@ -372,68 +221,35 @@
     .cta-final {
       text-align: center;
       background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
-      color: white;
-      padding: 55px 8%;
-      border-radius: 26px;
-      margin: 45px 8%;
-      max-width: 1100px;
-      box-shadow: var(--sombra-lg);
-      position: relative;
-      overflow: hidden;
+      color: white; padding: 55px 8%; border-radius: 26px;
+      margin: 45px 8%; max-width: 1100px; box-shadow: var(--sombra-lg);
+      position: relative; overflow: hidden;
     }
     .cta-final::before {
-      content: '';
-      position: absolute;
-      top: -80px; left: -80px;
+      content: ''; position: absolute; top: -80px; left: -80px;
       width: 300px; height: 300px;
       background: radial-gradient(circle, rgba(249,168,37,0.25) 0%, transparent 70%);
       border-radius: 50%;
     }
     .cta-final h2 { font-size: 2rem; margin-bottom: 16px; position: relative; z-index: 1; }
     .cta-final p {
-      font-size: 1.08rem;
-      margin-bottom: 28px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      opacity: 0.95;
-      position: relative;
-      z-index: 1;
+      font-size: 1.08rem; margin-bottom: 28px; max-width: 700px;
+      margin-left: auto; margin-right: auto; opacity: 0.95; position: relative; z-index: 1;
     }
     .cta-botones { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
-    .cta-final .btn {
-      background: white;
-      color: var(--verde-oscuro);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    }
-    .cta-final .btn:hover {
-      background: var(--amarillo);
-      color: white;
-      box-shadow: 0 12px 28px rgba(249,168,37,0.5);
-    }
+    .cta-final .btn { background: white; color: var(--verde-oscuro); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+    .cta-final .btn:hover { background: var(--amarillo); color: white; box-shadow: 0 12px 28px rgba(249,168,37,0.5); }
     .cta-final img {
-      max-width: 260px;
-      width: 100%;
-      margin-top: 30px;
-      border-radius: 20px;
-      background: white;
-      padding: 12px;
-      position: relative;
-      z-index: 1;
-      box-shadow: var(--sombra-md);
+      max-width: 260px; width: 100%; margin-top: 30px;
+      border-radius: 20px; background: white; padding: 12px;
+      position: relative; z-index: 1; box-shadow: var(--sombra-md);
     }
 
     /* ===== FOOTER ===== */
     .site-footer {
-      background: #1B5E20;
-      color: white;
-      text-align: center;
-      padding: 26px 8%;
-      font-size: 0.88rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      background: #1B5E20; color: white; text-align: center;
+      padding: 26px 8%; font-size: 0.88rem;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
     }
     .site-footer strong { color: var(--amarillo); }
     .footer-iconos { display: flex; gap: 16px; margin-bottom: 4px; opacity: 0.85; }
@@ -501,12 +317,10 @@
       <i data-lucide="camera" class="icon"></i>
       SUBIR FOTO DEL ACEITE
     </label>
-    <p class="escaner-hint">Formatos aceptados: JPG, PNG, WEBP. Foto clara y con buena luz.</p>
+    <p class="escaner-hint">📸 <strong>Tip:</strong> Coloca el aceite en un recipiente claro sobre fondo blanco, tapa la imagen para que solo se vea el aceite.</p>
 
     <img id="preview" class="preview-img" style="display:none;" alt="Vista previa del aceite">
-
     <canvas id="canvas" style="display:none;"></canvas>
-
     <div id="resultado" class="resultado-box"></div>
   </div>
 </section>
@@ -540,10 +354,8 @@
   <div class="bloque">
     <div>
       <h2><i data-lucide="droplet" class="icon icon-lg"></i> Jabón casero para lavar (ropa y platos)</h2>
-
       <h3><i data-lucide="check-circle-2" class="icon icon-sm"></i> Uso recomendado</h3>
       <p>Aceites de papas, tajadas, carnes o pollo. <strong>Evitar</strong> aceite con olor a pescado.</p>
-
       <h3><i data-lucide="shopping-basket" class="icon icon-sm"></i> Ingredientes</h3>
       <ul>
         <li>1 litro de aceite usado (bien filtrado)</li>
@@ -552,12 +364,10 @@
         <li>Guantes de nitrilo/goma y gafas de protección</li>
         <li>Recipiente de plástico duro (nunca aluminio) y molde</li>
       </ul>
-
       <div class="alerta">
         <i data-lucide="alert-triangle" class="icon icon-md"></i>
         <span><strong>Seguridad:</strong> Trabaja en área ventilada. Vierte siempre la soda sobre el agua, nunca al revés.</span>
       </div>
-
       <h3><i data-lucide="list-ordered" class="icon icon-sm"></i> Pasos de elaboración</h3>
       <ol>
         <li><span><strong>Mezclar la soda:</strong> En área ventilada y con guantes, vierte la soda cáustica sobre el agua. Remueve hasta disolver y deja enfriar 15 minutos.</span></li>
@@ -574,10 +384,8 @@
   <div class="bloque">
     <div>
       <h2><i data-lucide="flame" class="icon icon-lg"></i> Velas caseras (normales y aromatizadas)</h2>
-
       <h3><i data-lucide="check-circle-2" class="icon icon-sm"></i> Uso recomendado</h3>
       <p>Aceites claros y neutros: papas, tajadas, repostería frita.</p>
-
       <h3><i data-lucide="shopping-basket" class="icon icon-sm"></i> Ingredientes</h3>
       <ul>
         <li>100 ml de aceite usado (filtrado)</li>
@@ -586,7 +394,6 @@
         <li>Opcional: 20 gotas de aceite esencial (lavanda, limón o vainilla)</li>
         <li>1 frasco de vidrio pequeño</li>
       </ul>
-
       <h3><i data-lucide="list-ordered" class="icon icon-sm"></i> Pasos de elaboración</h3>
       <ol>
         <li><span><strong>Derretir:</strong> Funde la cera a baño María a fuego lento.</span></li>
@@ -620,11 +427,10 @@
   <p>© 2026 <strong>ECOGOTA</strong> – Transformando aceite en vida. Todos los derechos reservados.</p>
 </footer>
 
-<!-- ===== LUCIDE + ESCÁNER ===== -->
+<!-- ===== LUCIDE + ESCÁNER MEJORADO ===== -->
 <script>
   lucide.createIcons();
 
-  // ===== ESCÁNER DE ACEITE =====
   const inputFoto = document.getElementById('foto');
   const preview   = document.getElementById('preview');
   const canvas    = document.getElementById('canvas');
@@ -639,11 +445,10 @@
     reader.onload = function(event) {
       const img = new Image();
       img.onload = function() {
-        // Mostrar preview
         preview.src = event.target.result;
         preview.style.display = 'block';
 
-        // Dibujar en canvas (máx 400px para rapidez)
+        // Reducir a máx 400px de ancho para velocidad
         const maxW = 400;
         const escala = Math.min(1, maxW / img.width);
         canvas.width  = img.width  * escala;
@@ -652,37 +457,99 @@
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        // Leer píxeles del centro (evitamos bordes y sombras)
-        const margen = Math.floor(canvas.width * 0.2);
-        const ancho  = canvas.width  - margen * 2;
-        const alto   = canvas.height - margen * 2;
-        const data   = ctx.getImageData(margen, margen, ancho, alto).data;
+        // === RECORTE CENTRAL: solo el 40% del centro ===
+        const w = canvas.width;
+        const h = canvas.height;
+        const recorteX = Math.floor(w * 0.30);
+        const recorteY = Math.floor(h * 0.30);
+        const recorteW = Math.floor(w * 0.40);
+        const recorteH = Math.floor(h * 0.40);
 
+        const data = ctx.getImageData(recorteX, recorteY, recorteW, recorteH).data;
+
+        // === FILTRAR PÍXELES ===
+        // Ignoramos blancos (fondo), casi-blancos, y grises muy claros (recipiente)
         let r = 0, g = 0, b = 0, count = 0;
+        let pixelesValidos = [];
+
         for (let i = 0; i < data.length; i += 4) {
-          r += data[i];
-          g += data[i + 1];
-          b += data[i + 2];
+          const pr = data[i];
+          const pg = data[i + 1];
+          const pb = data[i + 2];
+          const brillo = (pr + pg + pb) / 3;
+
+          // Ignorar:
+          // - Píxeles muy claros (fondo blanco, brillos)
+          // - Píxeles muy oscuros (sombras negras, ropa)
+          if (brillo > 230 || brillo < 20) continue;
+
+          // Ignorar grises (R, G, B casi iguales = fondo neutro)
+          const max = Math.max(pr, pg, pb);
+          const min = Math.min(pr, pg, pb);
+          const saturacion = max - min;
+          if (saturacion < 15 && brillo > 150) continue;
+
+          r += pr; g += pg; b += pb;
+          pixelesValidos.push([pr, pg, pb]);
           count++;
         }
+
+        // Si no hay píxeles válidos, error
+        if (count < 50) {
+          resultado.className = 'resultado-box visible';
+          resultado.innerHTML = `
+            <h3><i data-lucide="alert-triangle" class="icon icon-md"></i> No se pudo analizar</h3>
+            <p>La imagen no contiene suficiente aceite visible. Intenta con una foto más cercana, con buena luz y fondo claro.</p>
+          `;
+          lucide.createIcons();
+          return;
+        }
+
         r = Math.round(r / count);
         g = Math.round(g / count);
         b = Math.round(b / count);
-
         const brillo = Math.round((r + g + b) / 3);
-        const rec = clasificarAceite(brillo, r, g, b);
+
+        // === CALCULAR TURBIDEZ (desviación estándar) ===
+        let sumaDesv = 0;
+        for (let p of pixelesValidos) {
+          const br = (p[0] + p[1] + p[2]) / 3;
+          sumaDesv += Math.pow(br - brillo, 2);
+        }
+        const turbidez = Math.round(Math.sqrt(sumaDesv / count));
+
+        // === ADJETIVOS ===
+        const adjetivoColor = describirColor(r, g, b, brillo);
+        const adjetivoBrillo = brillo > 190 ? 'muy claro'
+                             : brillo > 150 ? 'claro'
+                             : brillo > 110 ? 'dorado medio'
+                             : brillo > 70  ? 'oscuro'
+                             : 'muy oscuro / quemado';
+        const adjetivoTurbidez = turbidez > 60 ? 'muy turbio (con muchos residuos)'
+                               : turbidez > 30 ? 'algo turbio'
+                               : 'limpio y transparente';
+
+        const rec = clasificarAceite(brillo, turbidez, r, g, b);
 
         resultado.className = 'resultado-box visible';
         resultado.innerHTML = `
           <h3><i data-lucide="scan-line" class="icon icon-md"></i> Análisis completado</h3>
+
           <div class="dato">
             <span class="color-swatch" style="background: rgb(${r},${g},${b});"></span>
-            <strong>Color promedio:</strong> RGB(${r}, ${g}, ${b})
+            <strong>Color:</strong> ${adjetivoColor}
           </div>
+
           <div class="dato">
             <i data-lucide="sun" class="icon icon-sm"></i>
-            <strong>Brillo:</strong> ${brillo} / 255
+            <strong>Brillo:</strong> ${adjetivoBrillo} <span style="opacity:0.6;">(${brillo}/255)</span>
           </div>
+
+          <div class="dato">
+            <i data-lucide="waves" class="icon icon-sm"></i>
+            <strong>Transparencia:</strong> ${adjetivoTurbidez}
+          </div>
+
           <div class="recomendacion ${rec.clase}">
             <i data-lucide="${rec.icono}" class="icon icon-md"></i>
             <span>${rec.texto}</span>
@@ -695,32 +562,66 @@
     reader.readAsDataURL(file);
   });
 
-  function clasificarAceite(brillo, r, g, b) {
-    if (brillo >= 190) {
+  // Traducir RGB a un adjetivo humano
+  function describirColor(r, g, b, brillo) {
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const saturacion = max - min;
+
+    // Grises / blanquecinos
+    if (saturacion < 20) {
+      if (brillo > 200) return 'blanquecino (¿agua o fondo?)';
+      if (brillo > 150) return 'grisáceo claro';
+      if (brillo > 100) return 'gris medio';
+      return 'gris oscuro';
+    }
+
+    // Predominancia de tono
+    if (r > g && g > b) {
+      if (brillo > 190) return 'amarillo pálido (recién usado)';
+      if (brillo > 140) return 'dorado brillante';
+      if (brillo > 100) return 'ámbar oscuro';
+      return 'marrón muy oscuro (quemado)';
+    }
+    if (r > b && g > b) {
+      if (brillo > 160) return 'verdoso claro (poco común)';
+      return 'verdoso oscuro';
+    }
+    if (r > g && r > b && g < 80) return 'rojizo oscuro';
+    return 'marrón opaco';
+  }
+
+  // Clasificación final con brillo + turbidez
+  function clasificarAceite(brillo, turbidez, r, g, b) {
+    // Muy oscuro o turbio = desechar
+    if (brillo < 70 || turbidez > 70) {
+      return {
+        clase: 'rec-desechar',
+        icono: 'alert-triangle',
+        texto: '🚫 Aceite muy oscuro o turbio → Mejor deséchalo en un punto limpio.'
+      };
+    }
+    // Claro y limpio = velas
+    if (brillo >= 180 && turbidez < 35) {
       return {
         clase: 'rec-vela',
         icono: 'flame',
         texto: '🕯️ Aceite claro y limpio → Ideal para hacer VELAS (incluso aromatizadas).'
       };
     }
-    if (brillo >= 130) {
+    // Dorado medio o algo turbio = jabón
+    if (brillo >= 100) {
       return {
         clase: 'rec-jabon',
         icono: 'droplet',
-        texto: '🧼 Aceite dorado → Perfecto para hacer JABÓN casero para ropa y platos.'
+        texto: '🧼 Aceite dorado o medio → Perfecto para hacer JABÓN casero para ropa y platos.'
       };
     }
-    if (brillo >= 70) {
-      return {
-        clase: 'rec-jabon',
-        icono: 'droplet',
-        texto: '🧼 Aceite oscuro → Solo para JABÓN. Filtra muy bien antes de usarlo.'
-      };
-    }
+    // Fallback
     return {
-      clase: 'rec-desechar',
-      icono: 'alert-triangle',
-      texto: '🚫 Aceite muy oscuro o quemado → Mejor desecharlo en un punto limpio.'
+      clase: 'rec-jabon',
+      icono: 'droplet',
+      texto: '🧼 Aceite oscuro → Solo para JABÓN. Filtra muy bien antes de usarlo.'
     };
   }
 </script>
