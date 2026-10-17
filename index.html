@@ -47,11 +47,14 @@
       box-shadow: 0 2px 18px rgba(0,0,0,0.08);
       padding: 20px 8%;
       display: flex; justify-content: space-between; align-items: center;
+      gap: 20px;
     }
-    .logo { display: flex; align-items: center; gap: 16px; text-decoration: none; }
+    .logo { display: flex; align-items: center; gap: 16px; text-decoration: none; flex-shrink: 0; }
     .logo img { height: 65px; width: auto; border-radius: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
     .logo-text { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.9rem; color: var(--verde); letter-spacing: -1px; }
     .logo-text span { color: var(--amarillo); }
+
+    .header-right { display: flex; align-items: center; gap: 24px; }
     .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
     .nav-links a {
       text-decoration: none; color: var(--texto); font-weight: 500; font-size: 1.05rem;
@@ -59,6 +62,38 @@
     }
     .nav-links a:hover { color: var(--verde); }
     .nav-links a .icon { color: var(--verde); width: 18px; height: 18px; }
+
+    /* SELECTOR DE IDIOMA */
+    .lang-switcher {
+      display: flex;
+      gap: 6px;
+      background: rgba(46,125,50,0.08);
+      padding: 4px;
+      border-radius: 50px;
+      flex-shrink: 0;
+    }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      color: var(--texto-suave);
+      transition: all 0.2s ease;
+    }
+    .lang-btn svg { border-radius: 3px; display: block; }
+    .lang-btn:hover { background: rgba(46,125,50,0.15); }
+    .lang-btn.active {
+      background: var(--verde);
+      color: white;
+      box-shadow: 0 2px 8px rgba(46,125,50,0.3);
+    }
 
     /* HERO */
     .hero {
@@ -137,7 +172,6 @@
       margin: 20px auto 0; display: block; box-shadow: var(--sombra-sm);
     }
 
-    /* Botones debajo de la imagen */
     .preview-actions {
       display: none;
       justify-content: center;
@@ -274,6 +308,11 @@
     .footer-iconos { display: flex; gap: 16px; margin-bottom: 4px; opacity: 0.85; }
 
     /* RESPONSIVE */
+    @media (max-width: 1100px) {
+      .nav-links { gap: 18px; }
+      .nav-links a span.nav-txt { display: none; }
+    }
+
     @media (max-width: 900px) {
       .hero, .bloque { grid-template-columns: 1fr; padding: 35px 6%; gap: 30px; }
       .hero h1 { font-size: 1.9rem; }
@@ -283,7 +322,7 @@
       .cta-final { margin: 30px 4%; padding: 45px 6%; }
       .cta-final h2 { font-size: 1.6rem; }
       .nav-links { display: none; }
-      .site-header { padding: 16px 6%; }
+      .site-header { padding: 16px 6%; gap: 10px; }
       .logo img { height: 52px; }
       .logo-text { font-size: 1.55rem; }
       .hero { padding: 35px 6% 40px; }
@@ -299,6 +338,13 @@
       }
       .preview-actions { flex-direction: column; align-items: center; }
       .preview-actions .btn { width: 100%; max-width: 280px; }
+
+      .lang-switcher { padding: 3px; }
+      .lang-btn { padding: 5px 8px; font-size: 0.72rem; }
+    }
+
+    @media (max-width: 500px) {
+      .lang-btn span.lang-txt { display: none; }
     }
   </style>
 </head>
@@ -310,24 +356,43 @@
     <img src="img/ECOGOTA.jpeg" alt="Logo ECOGOTA">
     <span class="logo-text">ECO<span>GOTA</span></span>
   </a>
-  <nav>
-    <ul class="nav-links">
-      <li><a href="#escaner"><i data-lucide="scan-line" class="icon icon-sm"></i> Escáner</a></li>
-      <li><a href="#filtrar"><i data-lucide="filter" class="icon icon-sm"></i> Preparación</a></li>
-      <li><a href="#jabon"><i data-lucide="droplet" class="icon icon-sm"></i> Jabón</a></li>
-      <li><a href="#velas"><i data-lucide="flame" class="icon icon-sm"></i> Velas</a></li>
-    </ul>
-  </nav>
+
+  <div class="header-right">
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#escaner"><i data-lucide="scan-line" class="icon icon-sm"></i> <span class="nav-txt" data-i18n="nav_escaner">Escáner</span></a></li>
+        <li><a href="#filtrar"><i data-lucide="filter" class="icon icon-sm"></i> <span class="nav-txt" data-i18n="nav_preparacion">Preparación</span></a></li>
+        <li><a href="#jabon"><i data-lucide="droplet" class="icon icon-sm"></i> <span class="nav-txt" data-i18n="nav_jabon">Jabón</span></a></li>
+        <li><a href="#velas"><i data-lucide="flame" class="icon icon-sm"></i> <span class="nav-txt" data-i18n="nav_velas">Velas</span></a></li>
+      </ul>
+    </nav>
+
+    <!-- SELECTOR DE IDIOMA -->
+    <div class="lang-switcher" role="group" aria-label="Language">
+      <button class="lang-btn active" data-lang="es" title="Español" aria-label="Español">
+        <svg width="22" height="15" viewBox="0 0 640 480" aria-hidden="true"><rect width="640" height="480" fill="#c60b1e"/><rect width="640" height="240" y="120" fill="#ffc400"/></svg>
+        <span class="lang-txt">ES</span>
+      </button>
+      <button class="lang-btn" data-lang="en" title="English" aria-label="English">
+        <svg width="22" height="15" viewBox="0 0 640 480" aria-hidden="true"><rect width="640" height="480" fill="#fff"/><g fill="#b22234"><rect width="640" height="37"/><rect width="640" height="37" y="74"/><rect width="640" height="37" y="148"/><rect width="640" height="37" y="222"/><rect width="640" height="37" y="296"/><rect width="640" height="37" y="370"/><rect width="640" height="37" y="444"/></g><rect width="256" height="259" fill="#3c3b6e"/></svg>
+        <span class="lang-txt">EN</span>
+      </button>
+      <button class="lang-btn" data-lang="pt" title="Português" aria-label="Português">
+        <svg width="22" height="15" viewBox="0 0 640 480" aria-hidden="true"><rect width="640" height="480" fill="#009c3b"/><polygon points="320,50 590,240 320,430 50,240" fill="#ffdf00"/><circle cx="320" cy="240" r="100" fill="#002776"/></svg>
+        <span class="lang-txt">PT</span>
+      </button>
+    </div>
+  </div>
 </header>
 
 <!-- HERO -->
 <header class="hero" id="inicio">
   <div class="hero-content">
-    <h1>Tu aceite usado vale más de lo que crees. ¡Haz jabón y velas en casa!</h1>
-    <p>Evita contaminar miles de litros de agua. Descubre cómo hacerlo tú mismo aquí paso a paso.</p>
+    <h1 data-i18n="hero_h1">Tu aceite usado vale más de lo que crees. ¡Haz jabón y velas en casa!</h1>
+    <p data-i18n="hero_p">Evita contaminar miles de litros de agua. Descubre cómo hacerlo tú mismo aquí paso a paso.</p>
     <a href="#escaner" class="btn">
       <i data-lucide="scan-line" class="icon"></i>
-      ESCANEAR MI ACEITE
+      <span data-i18n="hero_btn">ESCANEAR MI ACEITE</span>
     </a>
   </div>
   <img src="img/ACEITE_VELA.jpg" alt="Frasco con aceite reciclado junto a una barra de jabón casero y una vela encendida sobre mesa de madera">
@@ -337,28 +402,28 @@
 <section id="escaner">
   <h2 class="seccion-titulo">
     <i data-lucide="scan-line" class="icon icon-lg"></i>
-    Escanea tu aceite y te decimos qué hacer
+    <span data-i18n="escaner_titulo">Escanea tu aceite y te decimos qué hacer</span>
   </h2>
-  <p class="seccion-sub">Sube una foto clara de tu aceite usado. Nuestra IA analizará su estado, color y calidad para recomendarte si sirve para <strong>velas</strong>, <strong>jabón</strong> o si es mejor <strong>desecharlo</strong>.</p>
+  <p class="seccion-sub" data-i18n-html="escaner_sub">Sube una foto clara de tu aceite usado. Nuestra IA analizará su estado, color y calidad para recomendarte si sirve para <strong>velas</strong>, <strong>jabón</strong> o si es mejor <strong>desecharlo</strong>.</p>
 
   <div class="escaner-card">
     <input type="file" id="foto" accept="image/*">
     <label for="foto" class="btn" id="btn-subir">
       <i data-lucide="camera" class="icon"></i>
-      SUBIR FOTO DEL ACEITE
+      <span data-i18n="escaner_btn_subir">SUBIR FOTO DEL ACEITE</span>
     </label>
-    <p class="escaner-hint" id="hint-inicial"><strong>Tip:</strong> Coloca el aceite en un recipiente claro sobre fondo blanco, con buena luz.</p>
+    <p class="escaner-hint" id="hint-inicial" data-i18n-html="escaner_hint"><strong>Tip:</strong> Coloca el aceite en un recipiente claro sobre fondo blanco, con buena luz.</p>
 
     <img id="preview" class="preview-img" style="display:none;" alt="Vista previa del aceite">
 
     <div class="preview-actions" id="preview-actions">
       <label for="foto" class="btn btn-secondary">
         <i data-lucide="refresh-cw" class="icon"></i>
-        CAMBIAR FOTO
+        <span data-i18n="escaner_cambiar">CAMBIAR FOTO</span>
       </label>
       <button type="button" class="btn btn-secondary" id="btn-quitar">
         <i data-lucide="trash-2" class="icon"></i>
-        QUITAR FOTO
+        <span data-i18n="escaner_quitar">QUITAR FOTO</span>
       </button>
     </div>
 
@@ -370,20 +435,20 @@
 <section id="filtrar">
   <h2 class="seccion-titulo">
     <i data-lucide="filter" class="icon icon-lg"></i>
-    Antes de empezar: Prepara tu aceite en 2 pasos
+    <span data-i18n="filtro_titulo">Antes de empezar: Prepara tu aceite en 2 pasos</span>
   </h2>
-  <p class="seccion-sub">Un aceite bien filtrado garantiza jabones y velas de mejor calidad, sin malos olores ni residuos.</p>
+  <p class="seccion-sub" data-i18n="filtro_sub">Un aceite bien filtrado garantiza jabones y velas de mejor calidad, sin malos olores ni residuos.</p>
 
   <div class="pasos-grid">
     <div class="paso-card">
       <div class="paso-icono"><i data-lucide="utensils" class="icon icon-md"></i></div>
-      <h3>Paso 1 · Colar</h3>
-      <p>Deja enfriar el aceite y pásalo por un colador metálico de malla fina para retirar residuos grandes de comida.</p>
+      <h3 data-i18n="filtro_p1_t">Paso 1 · Colar</h3>
+      <p data-i18n="filtro_p1_d">Deja enfriar el aceite y pásalo por un colador metálico de malla fina para retirar residuos grandes de comida.</p>
     </div>
     <div class="paso-card">
       <div class="paso-icono"><i data-lucide="filter" class="icon icon-md"></i></div>
-      <h3>Paso 2 · Filtrar</h3>
-      <p>Pásalo por una tela fina de algodón o un filtro de café para eliminar impurezas pequeñas.</p>
+      <h3 data-i18n="filtro_p2_t">Paso 2 · Filtrar</h3>
+      <p data-i18n="filtro_p2_d">Pásalo por una tela fina de algodón o un filtro de café para eliminar impurezas pequeñas.</p>
     </div>
   </div>
 
@@ -394,26 +459,26 @@
 <section id="jabon">
   <div class="bloque">
     <div>
-      <h2><i data-lucide="droplet" class="icon icon-lg"></i> Jabón casero para lavar (ropa y platos)</h2>
-      <h3><i data-lucide="check-circle-2" class="icon icon-sm"></i> Uso recomendado</h3>
-      <p>Aceites de papas, tajadas, carnes o pollo. <strong>Evitar</strong> aceite con olor a pescado.</p>
-      <h3><i data-lucide="shopping-basket" class="icon icon-sm"></i> Ingredientes</h3>
+      <h2><i data-lucide="droplet" class="icon icon-lg"></i> <span data-i18n="jabon_titulo">Jabón casero para lavar (ropa y platos)</span></h2>
+      <h3><i data-lucide="check-circle-2" class="icon icon-sm"></i> <span data-i18n="jabon_uso_t">Uso recomendado</span></h3>
+      <p data-i18n-html="jabon_uso_p">Aceites de papas, tajadas, carnes o pollo. <strong>Evitar</strong> aceite con olor a pescado.</p>
+      <h3><i data-lucide="shopping-basket" class="icon icon-sm"></i> <span data-i18n="jabon_ing_t">Ingredientes</span></h3>
       <ul>
-        <li>1 litro de aceite usado (bien filtrado)</li>
-        <li>330 ml de agua</li>
-        <li>140 g de soda cáustica en escamas (99% pureza)</li>
-        <li>Guantes de nitrilo/goma y gafas de protección</li>
-        <li>Recipiente de plástico duro (nunca aluminio) y molde</li>
+        <li data-i18n="jabon_i1">1 litro de aceite usado (bien filtrado)</li>
+        <li data-i18n="jabon_i2">330 ml de agua</li>
+        <li data-i18n="jabon_i3">140 g de soda cáustica en escamas (99% pureza)</li>
+        <li data-i18n="jabon_i4">Guantes de nitrilo/goma y gafas de protección</li>
+        <li data-i18n="jabon_i5">Recipiente de plástico duro (nunca aluminio) y molde</li>
       </ul>
       <div class="alerta">
         <i data-lucide="alert-triangle" class="icon icon-md"></i>
-        <span><strong>Seguridad:</strong> Trabaja en área ventilada. Vierte siempre la soda sobre el agua, nunca al revés.</span>
+        <span data-i18n-html="jabon_alerta"><strong>Seguridad:</strong> Trabaja en área ventilada. Vierte siempre la soda sobre el agua, nunca al revés.</span>
       </div>
-      <h3><i data-lucide="list-ordered" class="icon icon-sm"></i> Pasos de elaboración</h3>
+      <h3><i data-lucide="list-ordered" class="icon icon-sm"></i> <span data-i18n="jabon_pasos_t">Pasos de elaboración</span></h3>
       <ol>
-        <li><span><strong>Mezclar la soda:</strong> En área ventilada y con guantes, vierte la soda cáustica sobre el agua. Remueve hasta disolver y deja enfriar 15 minutos.</span></li>
-        <li><span><strong>Mezclar el aceite:</strong> Vierte el aceite filtrado poco a poco mientras remueves en un solo sentido constante hasta obtener textura espesa tipo mayonesa.</span></li>
-        <li><span><strong>Moldear y curar:</strong> Vierte la masa en los moldes, deja reposar 48 horas para desmoldar y cura las barras en lugar seco durante 4 semanas antes de usarlas.</span></li>
+        <li><span data-i18n-html="jabon_p1"><strong>Mezclar la soda:</strong> En área ventilada y con guantes, vierte la soda cáustica sobre el agua. Remueve hasta disolver y deja enfriar 15 minutos.</span></li>
+        <li><span data-i18n-html="jabon_p2"><strong>Mezclar el aceite:</strong> Vierte el aceite filtrado poco a poco mientras remueves en un solo sentido constante hasta obtener textura espesa tipo mayonesa.</span></li>
+        <li><span data-i18n-html="jabon_p3"><strong>Moldear y curar:</strong> Vierte la masa en los moldes, deja reposar 48 horas para desmoldar y cura las barras en lugar seco durante 4 semanas antes de usarlas.</span></li>
       </ol>
     </div>
     <img class="bloque-img" src="img/ACEITE_JABON.webp" alt="Barras de jabón artesanal cortadas con apariencia rústica sobre una tabla de madera">
@@ -424,23 +489,23 @@
 <section id="velas">
   <div class="bloque">
     <div>
-      <h2><i data-lucide="flame" class="icon icon-lg"></i> Velas caseras (normales y aromatizadas)</h2>
-      <h3><i data-lucide="check-circle-2" class="icon icon-sm"></i> Uso recomendado</h3>
-      <p>Aceites claros y neutros: papas, tajadas, repostería frita.</p>
-      <h3><i data-lucide="shopping-basket" class="icon icon-sm"></i> Ingredientes</h3>
+      <h2><i data-lucide="flame" class="icon icon-lg"></i> <span data-i18n="velas_titulo">Velas caseras (normales y aromatizadas)</span></h2>
+      <h3><i data-lucide="check-circle-2" class="icon icon-sm"></i> <span data-i18n="velas_uso_t">Uso recomendado</span></h3>
+      <p data-i18n="velas_uso_p">Aceites claros y neutros: papas, tajadas, repostería frita.</p>
+      <h3><i data-lucide="shopping-basket" class="icon icon-sm"></i> <span data-i18n="velas_ing_t">Ingredientes</span></h3>
       <ul>
-        <li>100 ml de aceite usado (filtrado)</li>
-        <li>100 g de cera de soya o parafina (o 15 g de endurecedor)</li>
-        <li>1 mecha o pabilo de algodón</li>
-        <li>Opcional: 20 gotas de aceite esencial (lavanda, limón o vainilla)</li>
-        <li>1 frasco de vidrio pequeño</li>
+        <li data-i18n="velas_i1">100 ml de aceite usado (filtrado)</li>
+        <li data-i18n="velas_i2">100 g de cera de soya o parafina (o 15 g de endurecedor)</li>
+        <li data-i18n="velas_i3">1 mecha o pabilo de algodón</li>
+        <li data-i18n="velas_i4">Opcional: 20 gotas de aceite esencial (lavanda, limón o vainilla)</li>
+        <li data-i18n="velas_i5">1 frasco de vidrio pequeño</li>
       </ul>
-      <h3><i data-lucide="list-ordered" class="icon icon-sm"></i> Pasos de elaboración</h3>
+      <h3><i data-lucide="list-ordered" class="icon icon-sm"></i> <span data-i18n="velas_pasos_t">Pasos de elaboración</span></h3>
       <ol>
-        <li><span><strong>Derretir:</strong> Funde la cera a baño María a fuego lento.</span></li>
-        <li><span><strong>Mezclar:</strong> Retira del fuego, agrega el aceite usado y remueve uniformemente. Añade el aceite esencial si deseas aroma.</span></li>
-        <li><span><strong>Colocar la mecha y verter:</strong> Centra la mecha en el frasco y vierte la mezcla con cuidado.</span></li>
-        <li><span><strong>Enfriar:</strong> Deja solidificar 12 horas a temperatura ambiente sin mover.</span></li>
+        <li><span data-i18n-html="velas_p1"><strong>Derretir:</strong> Funde la cera a baño María a fuego lento.</span></li>
+        <li><span data-i18n-html="velas_p2"><strong>Mezclar:</strong> Retira del fuego, agrega el aceite usado y remueve uniformemente. Añade el aceite esencial si deseas aroma.</span></li>
+        <li><span data-i18n-html="velas_p3"><strong>Colocar la mecha y verter:</strong> Centra la mecha en el frasco y vierte la mezcla con cuidado.</span></li>
+        <li><span data-i18n-html="velas_p4"><strong>Enfriar:</strong> Deja solidificar 12 horas a temperatura ambiente sin mover.</span></li>
       </ol>
     </div>
     <img class="bloque-img" src="img/ACEITE_QUEMADO.webp" alt="Frasco de vidrio transparente con vela casera encendida y una rama de lavanda decorativa al lado">
@@ -449,11 +514,11 @@
 
 <!-- CTA FINAL -->
 <div class="cta-final" id="comparte">
-  <h2>¿Hiciste tu primer jabón o vela?</h2>
-  <p>¡Sube tu foto a redes sociales, etiqueta a nuestro equipo y ayuda a inspirar a más personas a salvar miles de litros de agua!</p>
+  <h2 data-i18n="cta_titulo">¿Hiciste tu primer jabón o vela?</h2>
+  <p data-i18n="cta_p">¡Sube tu foto a redes sociales, etiqueta a nuestro equipo y ayuda a inspirar a más personas a salvar miles de litros de agua!</p>
   <div class="cta-botones">
-    <a href="#" class="btn"><i data-lucide="camera" class="icon"></i> COMPARTIR MI IMPACTO</a>
-    <a href="#" class="btn"><i data-lucide="mail" class="icon"></i> UNIRME AL RETO ECO</a>
+    <a href="#" class="btn"><i data-lucide="camera" class="icon"></i> <span data-i18n="cta_btn1">COMPARTIR MI IMPACTO</span></a>
+    <a href="#" class="btn"><i data-lucide="mail" class="icon"></i> <span data-i18n="cta_btn2">UNIRME AL RETO ECO</span></a>
   </div>
   <img src="img/ECOGOTA.jpeg" alt="Logo ECOGOTA representando el impacto ecológico positivo">
 </div>
@@ -465,13 +530,313 @@
     <i data-lucide="droplets" class="icon icon-sm"></i>
     <i data-lucide="recycle" class="icon icon-sm"></i>
   </div>
-  <p>© 2026 <strong>ECOGOTA</strong> – Transformando aceite en vida. Todos los derechos reservados.</p>
+  <p data-i18n-html="footer">© 2026 <strong>ECOGOTA</strong> – Transformando aceite en vida. Todos los derechos reservados.</p>
 </footer>
 
-<!-- ===== ESCÁNER OPTIMIZADO ===== -->
+<!-- ===== ESCÁNER + i18n ===== -->
 <script>
   lucide.createIcons();
 
+  // ==================== TRADUCCIONES ====================
+  const translations = {
+    es: {
+      nav_escaner: "Escáner",
+      nav_preparacion: "Preparación",
+      nav_jabon: "Jabón",
+      nav_velas: "Velas",
+      hero_h1: "Tu aceite usado vale más de lo que crees. ¡Haz jabón y velas en casa!",
+      hero_p: "Evita contaminar miles de litros de agua. Descubre cómo hacerlo tú mismo aquí paso a paso.",
+      hero_btn: "ESCANEAR MI ACEITE",
+      escaner_titulo: "Escanea tu aceite y te decimos qué hacer",
+      escaner_sub: "Sube una foto clara de tu aceite usado. Nuestra IA analizará su estado, color y calidad para recomendarte si sirve para <strong>velas</strong>, <strong>jabón</strong> o si es mejor <strong>desecharlo</strong>.",
+      escaner_btn_subir: "SUBIR FOTO DEL ACEITE",
+      escaner_hint: "<strong>Tip:</strong> Coloca el aceite en un recipiente claro sobre fondo blanco, con buena luz.",
+      escaner_cambiar: "CAMBIAR FOTO",
+      escaner_quitar: "QUITAR FOTO",
+      escaner_analizando_titulo: "Analizando con IA...",
+      escaner_analizando_texto: "Espera unos segundos mientras Gemini analiza la imagen.",
+      escaner_completado: "Análisis completado",
+      escaner_error: "Error al analizar",
+      filtro_titulo: "Antes de empezar: Prepara tu aceite en 2 pasos",
+      filtro_sub: "Un aceite bien filtrado garantiza jabones y velas de mejor calidad, sin malos olores ni residuos.",
+      filtro_p1_t: "Paso 1 · Colar",
+      filtro_p1_d: "Deja enfriar el aceite y pásalo por un colador metálico de malla fina para retirar residuos grandes de comida.",
+      filtro_p2_t: "Paso 2 · Filtrar",
+      filtro_p2_d: "Pásalo por una tela fina de algodón o un filtro de café para eliminar impurezas pequeñas.",
+      jabon_titulo: "Jabón casero para lavar (ropa y platos)",
+      jabon_uso_t: "Uso recomendado",
+      jabon_uso_p: "Aceites de papas, tajadas, carnes o pollo. <strong>Evitar</strong> aceite con olor a pescado.",
+      jabon_ing_t: "Ingredientes",
+      jabon_i1: "1 litro de aceite usado (bien filtrado)",
+      jabon_i2: "330 ml de agua",
+      jabon_i3: "140 g de soda cáustica en escamas (99% pureza)",
+      jabon_i4: "Guantes de nitrilo/goma y gafas de protección",
+      jabon_i5: "Recipiente de plástico duro (nunca aluminio) y molde",
+      jabon_alerta: "<strong>Seguridad:</strong> Trabaja en área ventilada. Vierte siempre la soda sobre el agua, nunca al revés.",
+      jabon_pasos_t: "Pasos de elaboración",
+      jabon_p1: "<strong>Mezclar la soda:</strong> En área ventilada y con guantes, vierte la soda cáustica sobre el agua. Remueve hasta disolver y deja enfriar 15 minutos.",
+      jabon_p2: "<strong>Mezclar el aceite:</strong> Vierte el aceite filtrado poco a poco mientras remueves en un solo sentido constante hasta obtener textura espesa tipo mayonesa.",
+      jabon_p3: "<strong>Moldear y curar:</strong> Vierte la masa en los moldes, deja reposar 48 horas para desmoldar y cura las barras en lugar seco durante 4 semanas antes de usarlas.",
+      velas_titulo: "Velas caseras (normales y aromatizadas)",
+      velas_uso_t: "Uso recomendado",
+      velas_uso_p: "Aceites claros y neutros: papas, tajadas, repostería frita.",
+      velas_ing_t: "Ingredientes",
+      velas_i1: "100 ml de aceite usado (filtrado)",
+      velas_i2: "100 g de cera de soya o parafina (o 15 g de endurecedor)",
+      velas_i3: "1 mecha o pabilo de algodón",
+      velas_i4: "Opcional: 20 gotas de aceite esencial (lavanda, limón o vainilla)",
+      velas_i5: "1 frasco de vidrio pequeño",
+      velas_pasos_t: "Pasos de elaboración",
+      velas_p1: "<strong>Derretir:</strong> Funde la cera a baño María a fuego lento.",
+      velas_p2: "<strong>Mezclar:</strong> Retira del fuego, agrega el aceite usado y remueve uniformemente. Añade el aceite esencial si deseas aroma.",
+      velas_p3: "<strong>Colocar la mecha y verter:</strong> Centra la mecha en el frasco y vierte la mezcla con cuidado.",
+      velas_p4: "<strong>Enfriar:</strong> Deja solidificar 12 horas a temperatura ambiente sin mover.",
+      cta_titulo: "¿Hiciste tu primer jabón o vela?",
+      cta_p: "¡Sube tu foto a redes sociales, etiqueta a nuestro equipo y ayuda a inspirar a más personas a salvar miles de litros de agua!",
+      cta_btn1: "COMPARTIR MI IMPACTO",
+      cta_btn2: "UNIRME AL RETO ECO",
+      footer: "© 2026 <strong>ECOGOTA</strong> – Transformando aceite en vida. Todos los derechos reservados.",
+      res_es_aceite: "¿Es aceite?",
+      res_si: "Sí",
+      res_no: "No",
+      res_estado: "Estado:",
+      res_color: "Color:",
+      res_trans: "Transparencia:",
+      res_calidad: "Calidad:",
+      val_liquido: "Líquido",
+      val_solido: "Sólido",
+      val_no_aplica: "No aplica",
+      val_claro: "Claro",
+      val_medio_claro: "Medio claro",
+      val_dorado: "Dorado",
+      val_medio_quemado: "Medio quemado",
+      val_quemado: "Quemado",
+      val_limpio: "Limpio y transparente",
+      val_algo_turbio: "Algo turbio",
+      val_muy_turbio: "Muy turbio",
+      val_excelente: "Excelente",
+      val_buena: "Buena",
+      val_regular: "Regular",
+      val_mala: "Mala",
+      rec_vela: "Ideal para hacer VELAS aromatizadas.",
+      rec_jabon: "Perfecto para hacer JABÓN casero.",
+      rec_desechar: "Mejor deséchalo en un punto limpio.",
+      rec_no_aceite: "No parece aceite. Sube otra foto.",
+      idioma_para_gemini: "español"
+    },
+    en: {
+      nav_escaner: "Scanner",
+      nav_preparacion: "Preparation",
+      nav_jabon: "Soap",
+      nav_velas: "Candles",
+      hero_h1: "Your used oil is worth more than you think. Make soap and candles at home!",
+      hero_p: "Avoid contaminating thousands of liters of water. Discover how to do it yourself here, step by step.",
+      hero_btn: "SCAN MY OIL",
+      escaner_titulo: "Scan your oil and we'll tell you what to do",
+      escaner_sub: "Upload a clear photo of your used oil. Our AI will analyze its state, color and quality to recommend if it's suitable for <strong>candles</strong>, <strong>soap</strong> or if it's better to <strong>discard it</strong>.",
+      escaner_btn_subir: "UPLOAD OIL PHOTO",
+      escaner_hint: "<strong>Tip:</strong> Place the oil in a clear container on a white background with good lighting.",
+      escaner_cambiar: "CHANGE PHOTO",
+      escaner_quitar: "REMOVE PHOTO",
+      escaner_analizando_titulo: "Analyzing with AI...",
+      escaner_analizando_texto: "Wait a few seconds while Gemini analyzes the image.",
+      escaner_completado: "Analysis complete",
+      escaner_error: "Analysis error",
+      filtro_titulo: "Before you start: Prepare your oil in 2 steps",
+      filtro_sub: "A well-filtered oil guarantees better quality soaps and candles, without bad odors or residues.",
+      filtro_p1_t: "Step 1 · Strain",
+      filtro_p1_d: "Let the oil cool and pass it through a fine mesh metal strainer to remove large food residues.",
+      filtro_p2_t: "Step 2 · Filter",
+      filtro_p2_d: "Pass it through a fine cotton cloth or coffee filter to remove small impurities.",
+      jabon_titulo: "Homemade soap for washing (clothes and dishes)",
+      jabon_uso_t: "Recommended use",
+      jabon_uso_p: "Oils from potatoes, fried snacks, meats or chicken. <strong>Avoid</strong> oil that smells like fish.",
+      jabon_ing_t: "Ingredients",
+      jabon_i1: "1 liter of used oil (well filtered)",
+      jabon_i2: "330 ml of water",
+      jabon_i3: "140 g of caustic soda flakes (99% purity)",
+      jabon_i4: "Nitrile/rubber gloves and safety glasses",
+      jabon_i5: "Hard plastic container (never aluminum) and mold",
+      jabon_alerta: "<strong>Safety:</strong> Work in a ventilated area. Always pour the soda over the water, never the other way around.",
+      jabon_pasos_t: "Preparation steps",
+      jabon_p1: "<strong>Mix the soda:</strong> In a ventilated area and with gloves, pour the caustic soda over the water. Stir until dissolved and let cool for 15 minutes.",
+      jabon_p2: "<strong>Mix the oil:</strong> Pour the filtered oil slowly while stirring in one constant direction until you get a thick mayonnaise-like texture.",
+      jabon_p3: "<strong>Mold and cure:</strong> Pour the mixture into the molds, let rest 48 hours to unmold and cure the bars in a dry place for 4 weeks before using them.",
+      velas_titulo: "Homemade candles (regular and scented)",
+      velas_uso_t: "Recommended use",
+      velas_uso_p: "Clear and neutral oils: potatoes, fried snacks, fried pastry.",
+      velas_ing_t: "Ingredients",
+      velas_i1: "100 ml of used oil (filtered)",
+      velas_i2: "100 g of soy wax or paraffin (or 15 g of hardener)",
+      velas_i3: "1 cotton wick",
+      velas_i4: "Optional: 20 drops of essential oil (lavender, lemon or vanilla)",
+      velas_i5: "1 small glass jar",
+      velas_pasos_t: "Preparation steps",
+      velas_p1: "<strong>Melt:</strong> Melt the wax in a double boiler over low heat.",
+      velas_p2: "<strong>Mix:</strong> Remove from heat, add the used oil and stir evenly. Add the essential oil if you want aroma.",
+      velas_p3: "<strong>Place the wick and pour:</strong> Center the wick in the jar and pour the mixture carefully.",
+      velas_p4: "<strong>Cool:</strong> Let solidify for 12 hours at room temperature without moving.",
+      cta_titulo: "Did you make your first soap or candle?",
+      cta_p: "Upload your photo to social media, tag our team and help inspire more people to save thousands of liters of water!",
+      cta_btn1: "SHARE MY IMPACT",
+      cta_btn2: "JOIN THE ECO CHALLENGE",
+      footer: "© 2026 <strong>ECOGOTA</strong> – Transforming oil into life. All rights reserved.",
+      res_es_aceite: "Is it oil?",
+      res_si: "Yes",
+      res_no: "No",
+      res_estado: "State:",
+      res_color: "Color:",
+      res_trans: "Transparency:",
+      res_calidad: "Quality:",
+      val_liquido: "Liquid",
+      val_solido: "Solid",
+      val_no_aplica: "Not applicable",
+      val_claro: "Clear",
+      val_medio_claro: "Medium clear",
+      val_dorado: "Golden",
+      val_medio_quemado: "Medium burnt",
+      val_quemado: "Burnt",
+      val_limpio: "Clean and transparent",
+      val_algo_turbio: "Somewhat cloudy",
+      val_muy_turbio: "Very cloudy",
+      val_excelente: "Excellent",
+      val_buena: "Good",
+      val_regular: "Fair",
+      val_mala: "Poor",
+      rec_vela: "Ideal for making scented CANDLES.",
+      rec_jabon: "Perfect for making homemade SOAP.",
+      rec_desechar: "Better discard it at a clean point.",
+      rec_no_aceite: "Doesn't look like oil. Upload another photo.",
+      idioma_para_gemini: "English"
+    },
+    pt: {
+      nav_escaner: "Scanner",
+      nav_preparacion: "Preparação",
+      nav_jabon: "Sabão",
+      nav_velas: "Velas",
+      hero_h1: "Seu óleo usado vale mais do que você imagina. Faça sabão e velas em casa!",
+      hero_p: "Evite contaminar milhares de litros de água. Descubra como fazer você mesmo aqui, passo a passo.",
+      hero_btn: "ESCANEAR MEU ÓLEO",
+      escaner_titulo: "Escaneie seu óleo e dizemos o que fazer",
+      escaner_sub: "Envie uma foto clara do seu óleo usado. Nossa IA analisará seu estado, cor e qualidade para recomendar se serve para <strong>velas</strong>, <strong>sabão</strong> ou se é melhor <strong>descartar</strong>.",
+      escaner_btn_subir: "ENVIAR FOTO DO ÓLEO",
+      escaner_hint: "<strong>Dica:</strong> Coloque o óleo em um recipiente claro sobre fundo branco, com boa iluminação.",
+      escaner_cambiar: "TROCAR FOTO",
+      escaner_quitar: "REMOVER FOTO",
+      escaner_analizando_titulo: "Analisando com IA...",
+      escaner_analizando_texto: "Aguarde alguns segundos enquanto o Gemini analisa a imagem.",
+      escaner_completado: "Análise concluída",
+      escaner_error: "Erro ao analisar",
+      filtro_titulo: "Antes de começar: Prepare seu óleo em 2 passos",
+      filtro_sub: "Um óleo bem filtrado garante sabões e velas de melhor qualidade, sem maus odores nem resíduos.",
+      filtro_p1_t: "Passo 1 · Coar",
+      filtro_p1_d: "Deixe o óleo esfriar e passe por um coador metálico de malha fina para retirar resíduos grandes de comida.",
+      filtro_p2_t: "Passo 2 · Filtrar",
+      filtro_p2_d: "Passe por um tecido fino de algodão ou filtro de café para eliminar impurezas pequenas.",
+      jabon_titulo: "Sabão caseiro para lavar (roupas e louças)",
+      jabon_uso_t: "Uso recomendado",
+      jabon_uso_p: "Óleos de batatas, salgadinhos, carnes ou frango. <strong>Evitar</strong> óleo com cheiro de peixe.",
+      jabon_ing_t: "Ingredientes",
+      jabon_i1: "1 litro de óleo usado (bem filtrado)",
+      jabon_i2: "330 ml de água",
+      jabon_i3: "140 g de soda cáustica em escamas (99% de pureza)",
+      jabon_i4: "Luvas de nitrilo/borracha e óculos de proteção",
+      jabon_i5: "Recipiente de plástico duro (nunca de alumínio) e forma",
+      jabon_alerta: "<strong>Segurança:</strong> Trabalhe em área ventilada. Despeje sempre a soda sobre a água, nunca ao contrário.",
+      jabon_pasos_t: "Passos de preparo",
+      jabon_p1: "<strong>Misturar a soda:</strong> Em área ventilada e com luvas, despeje a soda cáustica sobre a água. Mexa até dissolver e deixe esfriar 15 minutos.",
+      jabon_p2: "<strong>Misturar o óleo:</strong> Despeje o óleo filtrado aos poucos enquanto mexe em um único sentido constante até obter textura espessa tipo maionese.",
+      jabon_p3: "<strong>Moldar e curar:</strong> Despeje a massa nas formas, deixe repousar 48 horas para desenformar e cure as barras em local seco por 4 semanas antes de usar.",
+      velas_titulo: "Velas caseiras (normais e aromatizadas)",
+      velas_uso_t: "Uso recomendado",
+      velas_uso_p: "Óleos claros e neutros: batatas, salgadinhos, frituras de confeitaria.",
+      velas_ing_t: "Ingredientes",
+      velas_i1: "100 ml de óleo usado (filtrado)",
+      velas_i2: "100 g de cera de soja ou parafina (ou 15 g de endurecedor)",
+      velas_i3: "1 pavio de algodão",
+      velas_i4: "Opcional: 20 gotas de óleo essencial (lavanda, limão ou baunilha)",
+      velas_i5: "1 pote de vidro pequeno",
+      velas_pasos_t: "Passos de preparo",
+      velas_p1: "<strong>Derreter:</strong> Derreta a cera em banho-maria em fogo baixo.",
+      velas_p2: "<strong>Misturar:</strong> Retire do fogo, adicione o óleo usado e mexa uniformemente. Adicione o óleo essencial se desejar aroma.",
+      velas_p3: "<strong>Colocar o pavio e despejar:</strong> Centralize o pavio no pote e despeje a mistura com cuidado.",
+      velas_p4: "<strong>Esfriar:</strong> Deixe solidificar por 12 horas à temperatura ambiente sem mexer.",
+      cta_titulo: "Você fez seu primeiro sabão ou vela?",
+      cta_p: "Publique sua foto nas redes sociais, marque nossa equipe e ajude a inspirar mais pessoas a salvar milhares de litros de água!",
+      cta_btn1: "COMPARTILHAR MEU IMPACTO",
+      cta_btn2: "ENTRAR NO DESAFIO ECO",
+      footer: "© 2026 <strong>ECOGOTA</strong> – Transformando óleo em vida. Todos os direitos reservados.",
+      res_es_aceite: "É óleo?",
+      res_si: "Sim",
+      res_no: "Não",
+      res_estado: "Estado:",
+      res_color: "Cor:",
+      res_trans: "Transparência:",
+      res_calidad: "Qualidade:",
+      val_liquido: "Líquido",
+      val_solido: "Sólido",
+      val_no_aplica: "Não se aplica",
+      val_claro: "Claro",
+      val_medio_claro: "Médio claro",
+      val_dorado: "Dourado",
+      val_medio_quemado: "Médio queimado",
+      val_quemado: "Queimado",
+      val_limpio: "Limpo e transparente",
+      val_algo_turbio: "Um pouco turvo",
+      val_muy_turbio: "Muito turvo",
+      val_excelente: "Excelente",
+      val_buena: "Boa",
+      val_regular: "Regular",
+      val_mala: "Ruim",
+      rec_vela: "Ideal para fazer VELAS aromatizadas.",
+      rec_jabon: "Perfeito para fazer SABÃO caseiro.",
+      rec_desechar: "Melhor descartar em um ponto de coleta.",
+      rec_no_aceite: "Não parece óleo. Envie outra foto.",
+      idioma_para_gemini: "português"
+    }
+  };
+
+  let currentLang = localStorage.getItem('ecogota_lang') || 'es';
+
+  function aplicarIdioma(lang) {
+    if (!translations[lang]) lang = 'es';
+    currentLang = lang;
+    localStorage.setItem('ecogota_lang', lang);
+    document.documentElement.lang = lang;
+
+    // Aplicar textos
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang][key] !== undefined) {
+        el.textContent = translations[lang][key];
+      }
+    });
+
+    // Aplicar textos con HTML
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      if (translations[lang][key] !== undefined) {
+        el.innerHTML = translations[lang][key];
+      }
+    });
+
+    // Marcar botón activo
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    // Actualizar título de la pestaña
+    const titulos = {
+      es: "ECOGOTA – Transforma tu Aceite Usado en Jabón y Velas",
+      en: "ECOGOTA – Turn Your Used Oil into Soap and Candles",
+      pt: "ECOGOTA – Transforme seu Óleo Usado em Sabão e Velas"
+    };
+    document.title = titulos[lang] || titulos.es;
+
+    lucide.createIcons();
+  }
+
+  // ==================== ESCÁNER ====================
   const _k1 = "AQ.Ab8RN6Jwu1ULk";
   const _k2 = "RscOP5vL8fi8dnuT";
   const _k3 = "uEnl81Ujx8ztmm-xM-zXw";
@@ -505,14 +870,12 @@
     });
   }
 
-  // ✅ Log solo en consola, invisible al usuario
   const log = (msg) => console.log("[ECOGOTA]", msg);
 
   inputFoto.addEventListener('change', async function(e) {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Ocultar botón "subir" y mostrar imagen + acciones
     btnSubir.style.display = 'none';
     hint.style.display = 'none';
 
@@ -525,10 +888,11 @@
 
     acciones.classList.add('visible');
 
+    const t = translations[currentLang];
     resultado.className = 'resultado-box visible';
     resultado.innerHTML = `
-      <h3><i data-lucide="loader" class="icon icon-md"></i> Analizando con IA...</h3>
-      <p>Espera unos segundos mientras Gemini analiza la imagen.</p>
+      <h3><i data-lucide="loader" class="icon icon-md"></i> ${t.escaner_analizando_titulo}</h3>
+      <p>${t.escaner_analizando_texto}</p>
     `;
     lucide.createIcons();
 
@@ -541,15 +905,15 @@
       mostrarResultado(analisis);
     } catch (err) {
       console.error("Error completo:", err);
+      const t2 = translations[currentLang];
       resultado.innerHTML = `
-        <h3><i data-lucide="alert-triangle" class="icon icon-md"></i> Error al analizar</h3>
+        <h3><i data-lucide="alert-triangle" class="icon icon-md"></i> ${t2.escaner_error}</h3>
         <p style="font-size:0.85rem;word-break:break-word;">${err.message}</p>
       `;
       lucide.createIcons();
     }
   });
 
-  // ✅ Botón "Quitar foto" — resetea todo
   btnQuitar.addEventListener('click', () => {
     inputFoto.value = '';
     preview.style.display = 'none';
@@ -563,21 +927,23 @@
   });
 
   async function analizarConGemini(imagenBase64) {
+    const idioma = translations[currentLang].idioma_para_gemini;
+
     const prompt = `Analiza esta foto. ¿Es aceite vegetal usado de cocina? Responde SOLO con este JSON, sin markdown ni texto extra:
-{"es_aceite":true,"estado":"liquido","color":"claro","transparencia":"limpio","calidad":"buena","recomendacion":"vela","razon":"texto breve en español"}
+{"es_aceite":true,"estado":"liquido","color":"claro","transparencia":"limpio","calidad":"buena","recomendacion":"vela","razon":"texto breve"}
 Valores permitidos:
 - estado: "liquido" | "solido" | "no_aplica"
 - color: "claro" | "medio_claro" | "dorado" | "medio_quemado" | "quemado" | "no_aplica"
 - transparencia: "limpio" | "algo_turbio" | "muy_turbio" | "no_aplica"
 - calidad: "excelente" | "buena" | "regular" | "mala" | "no_aplica"
 - recomendacion: "vela" | "jabon" | "desechar" | "no_es_aceite"
-- razon: máx 15 palabras
+- razon: máx 15 palabras EN ${idioma.toUpperCase()}
 
-Reglas de recomendación:
+Reglas:
 - Aceite claro o medio_claro y limpio → "vela"
 - Aceite dorado, medio_quemado o quemado → "jabon"
-- Aceite muy sucio, con residuos sólidos o no identificable → "desechar"
-- Si la imagen no es aceite → "no_es_aceite"`;
+- Aceite muy sucio o no identificable → "desechar"
+- Si no es aceite → "no_es_aceite"`;
 
     const modelos = [
       "gemini-2.5-flash-lite",
@@ -649,49 +1015,49 @@ Reglas de recomendación:
       }
     }
 
-    throw new Error("Todos los modelos están ocupados. Espera unos segundos e intenta de nuevo.");
+    throw new Error("All models are busy. Wait a few seconds and try again.");
   }
 
   function mostrarResultado(a) {
-    const rec = mapearRecomendacion(a);
+    const t = translations[currentLang];
+    const rec = mapearRecomendacion(a, t);
 
-    // Traducir valores técnicos a etiquetas humanas
     const colorHumano = {
-      'claro': 'Claro',
-      'medio_claro': 'Medio claro',
-      'dorado': 'Dorado',
-      'medio_quemado': 'Medio quemado',
-      'quemado': 'Quemado',
-      'no_aplica': 'No aplica'
+      'claro': t.val_claro,
+      'medio_claro': t.val_medio_claro,
+      'dorado': t.val_dorado,
+      'medio_quemado': t.val_medio_quemado,
+      'quemado': t.val_quemado,
+      'no_aplica': t.val_no_aplica
     };
     const transHumano = {
-      'limpio': 'Limpio y transparente',
-      'algo_turbio': 'Algo turbio',
-      'muy_turbio': 'Muy turbio',
-      'no_aplica': 'No aplica'
+      'limpio': t.val_limpio,
+      'algo_turbio': t.val_algo_turbio,
+      'muy_turbio': t.val_muy_turbio,
+      'no_aplica': t.val_no_aplica
     };
     const estadoHumano = {
-      'liquido': 'Líquido',
-      'solido': 'Sólido',
-      'no_aplica': 'No aplica'
+      'liquido': t.val_liquido,
+      'solido': t.val_solido,
+      'no_aplica': t.val_no_aplica
     };
     const calidadHumano = {
-      'excelente': 'Excelente',
-      'buena': 'Buena',
-      'regular': 'Regular',
-      'mala': 'Mala',
-      'no_aplica': 'No aplica'
+      'excelente': t.val_excelente,
+      'buena': t.val_buena,
+      'regular': t.val_regular,
+      'mala': t.val_mala,
+      'no_aplica': t.val_no_aplica
     };
 
     resultado.className = 'resultado-box visible';
     resultado.innerHTML = `
-      <h3><i data-lucide="scan-line" class="icon icon-md"></i> Análisis completado</h3>
+      <h3><i data-lucide="scan-line" class="icon icon-md"></i> ${t.escaner_completado}</h3>
 
-      <div class="dato"><strong>¿Es aceite?</strong> ${a.es_aceite ? "Sí" : "No"}</div>
-      <div class="dato"><strong>Estado:</strong> ${estadoHumano[a.estado] || a.estado}</div>
-      <div class="dato"><strong>Color:</strong> ${colorHumano[a.color] || a.color}</div>
-      <div class="dato"><strong>Transparencia:</strong> ${transHumano[a.transparencia] || a.transparencia}</div>
-      <div class="dato"><strong>Calidad:</strong> ${calidadHumano[a.calidad] || a.calidad}</div>
+      <div class="dato"><strong>${t.res_es_aceite}</strong> ${a.es_aceite ? t.res_si : t.res_no}</div>
+      <div class="dato"><strong>${t.res_estado}</strong> ${estadoHumano[a.estado] || a.estado}</div>
+      <div class="dato"><strong>${t.res_color}</strong> ${colorHumano[a.color] || a.color}</div>
+      <div class="dato"><strong>${t.res_trans}</strong> ${transHumano[a.transparencia] || a.transparencia}</div>
+      <div class="dato"><strong>${t.res_calidad}</strong> ${calidadHumano[a.calidad] || a.calidad}</div>
 
       <div class="recomendacion ${rec.clase}">
         <i data-lucide="${rec.icono}" class="icon icon-md"></i>
@@ -705,15 +1071,25 @@ Reglas de recomendación:
     lucide.createIcons();
   }
 
-  function mapearRecomendacion(a) {
+  function mapearRecomendacion(a, t) {
     const mapa = {
-      vela:         { clase: 'rec-vela',      icono: 'flame',          texto: 'Ideal para hacer VELAS aromatizadas.' },
-      jabon:        { clase: 'rec-jabon',     icono: 'droplet',        texto: 'Perfecto para hacer JABÓN casero.' },
-      desechar:     { clase: 'rec-desechar',  icono: 'alert-triangle', texto: 'Mejor deséchalo en un punto limpio.' },
-      no_es_aceite: { clase: 'rec-desechar',  icono: 'x-circle',       texto: 'No parece aceite. Sube otra foto.' }
+      vela:         { clase: 'rec-vela',      icono: 'flame',          texto: t.rec_vela },
+      jabon:        { clase: 'rec-jabon',     icono: 'droplet',        texto: t.rec_jabon },
+      desechar:     { clase: 'rec-desechar',  icono: 'alert-triangle', texto: t.rec_desechar },
+      no_es_aceite: { clase: 'rec-desechar',  icono: 'x-circle',       texto: t.rec_no_aceite }
     };
     return mapa[a.recomendacion] || mapa.no_es_aceite;
   }
+
+  // ==================== SWITCH DE IDIOMA ====================
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      aplicarIdioma(btn.dataset.lang);
+    });
+  });
+
+  // Aplicar idioma guardado al iniciar
+  aplicarIdioma(currentLang);
 </script>
 
 </body>
